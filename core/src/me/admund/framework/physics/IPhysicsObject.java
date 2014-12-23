@@ -1,4 +1,4 @@
-package me.admund.framework.me.admund.framework.physics;
+package me.admund.framework.physics;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;

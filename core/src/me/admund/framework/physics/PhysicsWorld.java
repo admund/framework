@@ -1,4 +1,4 @@
-package me.admund.framework.me.admund.framework.physics;
+package me.admund.framework.physics;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;

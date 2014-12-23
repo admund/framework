@@ -1,4 +1,4 @@
-package me.admund.framework.me.admund.framework.physics;
+package me.admund.framework.physics;
 
 /**
  * Created by admund on 2014-12-23.

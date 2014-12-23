@@ -1,4 +1,4 @@
-package me.admund.framework.me.admund.framework.physics;
+package me.admund.framework.physics;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -94,6 +94,7 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
 
     protected void setCurrentPos(float x, float y) {
         setCurrentPos(x, y, getRotationRad());
+        setPosition(x, y);
     }
 
     protected void setCurrentPos(float x, float y, float rotation) {

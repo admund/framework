@@ -1,4 +1,4 @@
-package me.admund.framework.me.admund.framework.scenes;
+package me.admund.framework.scenes;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.utils.Disposable;

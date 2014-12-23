@@ -1,4 +1,4 @@
-package me.admund.framework.me.admund.framework.scenes;
+package me.admund.framework.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -13,10 +13,7 @@ import me.admund.framework.GameConfig;
  */
 public abstract class AbstractScene implements IScene {
     protected Stage stage = null;
-    //protected IGamepadMenuElement firstElement = null;
-
-    // DEBUG
-    protected TextArea textArena = null;
+    //protected IGamepadMenuElement firstElement = null; TODO
 
     public AbstractScene() {
         stage = new Stage(new StretchViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT));

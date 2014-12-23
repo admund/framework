@@ -1,4 +1,4 @@
-package me.admund.framework.me.admund.framework.scenes;
+package me.admund.framework.scenes;
 
 import java.util.Stack;
 
