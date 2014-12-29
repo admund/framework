@@ -1,5 +1,6 @@
 package me.admund.framework.physics;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import me.admund.framework.draw.ITextureHolder;
 
 /**
  * Created by admund on 2014-12-23.
@@ -17,6 +19,7 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
     private PhysicsWorld world = null;
     protected Fixture fixture = null;
     protected Body body = null;
+    private ITextureHolder textureHolder = null;
 
     public PhysicsObject(AType type) {
         info = new PhysicsObjectInfo().setType(type).setObj(this);
@@ -84,6 +87,7 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         return info.getType();
     }
 
+    // POSSITION
     protected void setCurrentPos(Vector2 pos) {
         setCurrentPos(pos.x, pos.y);
     }
@@ -101,7 +105,31 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         body.setTransform(x, y, rotation);
     }
 
+    // SIZE
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        PhysicsUtils.updateRectShape(getShape(), width, height);
+    }
+
+    public void setSize(float width, float height, Vector2[] verticles) {
+        super.setSize(width, height);
+        PhysicsUtils.updateRectShape(getShape(),verticles);
+    }
+
+    public void setSize(float radius) {
+        super.setSize(radius*2, radius*2);
+        PhysicsUtils.updateCircleShape(getShape(), radius);
+    }
+
     protected void destoryJoint(Joint joint) {
         world.destroyJoint(joint);
+    }
+
+    protected void setTextureHolder(ITextureHolder textureHolder) {
+        this.textureHolder = textureHolder;
+    }
+
+    protected Texture getTexture() {
+        return textureHolder.getTexture();
     }
 }

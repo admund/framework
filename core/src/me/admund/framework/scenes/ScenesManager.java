@@ -1,11 +1,13 @@
 package me.admund.framework.scenes;
 
+import com.badlogic.gdx.utils.Disposable;
+
 import java.util.Stack;
 
 /**
  * Created by admund on 2014-12-23.
  */
-public class ScenesManager {
+public class ScenesManager implements Disposable {
 
     public static ScenesManager inst = new ScenesManager();
 
@@ -31,5 +33,12 @@ public class ScenesManager {
     public void pop() {
         sceneStack.pop().dispose();
         sceneStack.peek().refresh();
+    }
+
+    @Override
+    public void dispose() {
+        while(!sceneStack.isEmpty()) {
+            sceneStack.pop().dispose();
+        }
     }
 }

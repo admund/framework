@@ -26,8 +26,12 @@ public abstract class AbstractScene implements IScene {
     }
 
     @Override
+    public void act(float deltaTime) {
+        stage.act(deltaTime);
+    }
+
+    @Override
     public void draw(Batch batch) {
-        stage.act();
         stage.draw();
     }
 
