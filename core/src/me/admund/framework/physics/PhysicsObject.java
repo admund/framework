@@ -108,17 +108,24 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
     // SIZE
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        PhysicsUtils.updateRectShape(getShape(), width, height);
+        PhysicsUtils.updateRectShape(getShape(), width * .5f, height * .5f);
     }
 
     public void setSize(float width, float height, Vector2[] verticles) {
         super.setSize(width, height);
-        PhysicsUtils.updateRectShape(getShape(),verticles);
+        PhysicsUtils.updateRectShape(getShape(), verticles);
     }
 
     public void setSize(float radius) {
         super.setSize(radius*2, radius*2);
         PhysicsUtils.updateCircleShape(getShape(), radius);
+    }
+
+    @Override
+    public void setRotation(float degrees) {
+        super.setRotation(degrees);
+        Vector2 pos = getPosition();
+        body.setTransform(pos.x, pos.y, degrees * MathUtils.degRad);
     }
 
     protected void destoryJoint(Joint joint) {
