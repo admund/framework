@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import me.admund.framework.GameConfig;
 
 /**
  * Created by admund on 2014-12-23.
@@ -13,8 +14,8 @@ public class PhysicsWorld implements Disposable {
     public static float WORLD_TO_BOX = 0.1f;
     public static float BOX_TO_WORLD = 10f;
 
-    public static float BOX_WORLD_WIDTH = WORLD_TO_BOX;//TODO * EBD.GAME_WIDTH;
-    public static float BOX_WORLD_HEIGHT = WORLD_TO_BOX;//TODO * EBD.GAME_HEIGHT;
+    public static float BOX_WORLD_WIDTH = WORLD_TO_BOX * GameConfig.GAME_WIDTH;
+    public static float BOX_WORLD_HEIGHT = WORLD_TO_BOX * GameConfig.GAME_HEIGHT;
 
     private World world = null;
     private Box2DDebugRenderer debugRenderer = null;

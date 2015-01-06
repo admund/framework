@@ -11,6 +11,10 @@ import me.admund.framework.physics.PhysicsWorld;
 public class DrawUtils {
 
     public static void drawActor(Batch batch, Texture texture, Actor actor) {
+        drawActor(batch, texture, actor, false, false);
+    }
+
+    public static void drawActor(Batch batch, Texture texture, Actor actor, boolean flipX, boolean flipY) {
         batch.draw(texture,
                 (actor.getX()-actor.getOriginX())*PhysicsWorld.BOX_TO_WORLD,
                 (actor.getY()-actor.getOriginY())*PhysicsWorld.BOX_TO_WORLD,
@@ -22,7 +26,7 @@ public class DrawUtils {
                 actor.getScaleY(),
                 actor.getRotation(),
                 0, 0, texture.getWidth(), texture.getHeight(),
-                false, false);
+                flipX, flipY);
     }
 
 }
