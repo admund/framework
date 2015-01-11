@@ -3,10 +3,7 @@ package me.admund.framework.physics;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.Joint;
-import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import me.admund.framework.draw.ITextureHolder;
 
@@ -87,6 +84,10 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         return info.getType();
     }
 
+    protected void updatePossition() {
+        setPosition(getPosition().x, getPosition().y);
+    }
+
     // POSSITION
     protected void setCurrentPos(Vector2 pos) {
         setCurrentPos(pos.x, pos.y);
@@ -126,6 +127,10 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         super.setRotation(degrees);
         Vector2 pos = getPosition();
         body.setTransform(pos.x, pos.y, degrees * MathUtils.degRad);
+    }
+
+    protected Joint createJoint(JointDef joint) {
+        return world.createJoint(joint);
     }
 
     protected void destoryJoint(Joint joint) {

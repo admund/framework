@@ -31,17 +31,12 @@ public class PhysicsWorld implements Disposable {
         bodyList = new Array<Body>();
     }
 
-//    public World getWorld() {
-//        return world;
-//    }
-
     public void step() {
         step(1f/60);
     }
 
     public void step(float deltaTime) {
         world.step(deltaTime, 6, 2);
-
         prepereToReuseBodies();
     }
 
