@@ -76,6 +76,13 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         canReuse = true;
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        updatePossition();
+        updateRotation();
+    }
+
     public void setActive(boolean isActive) {
         body.setActive(isActive);
     }
@@ -84,11 +91,11 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         return info.getType();
     }
 
-    protected void updatePossition() {
+    private void updatePossition() {
         setPosition(getPosition().x, getPosition().y);
     }
 
-    protected void updateRotation() {
+    private void updateRotation() {
         super.setRotation(body.getAngle() * MathUtils.radDeg);
     }
 
