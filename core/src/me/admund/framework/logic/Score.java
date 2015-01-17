@@ -31,4 +31,8 @@ public class Score {
         }
         scoreMap.put(scoreName, tmp.floatValue() + value);
     }
+
+    public void clear() {
+        scoreMap.clear();
+    }
 }

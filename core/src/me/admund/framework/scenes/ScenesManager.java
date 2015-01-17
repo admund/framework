@@ -32,7 +32,9 @@ public class ScenesManager implements Disposable {
 
     public void pop() {
         sceneStack.pop().dispose();
-        sceneStack.peek().refresh();
+        if(!sceneStack.isEmpty()) {
+            sceneStack.peek().refresh();
+        }
     }
 
     @Override
