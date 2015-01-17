@@ -1,6 +1,7 @@
 package me.admund.framework.physics.objects;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import me.admund.framework.physics.NoneType;
@@ -28,7 +29,6 @@ public class PhysicsRect extends PhysicsObject {
     public FixtureDef getFixtureDef() {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = PhysicsUtils.getDefaultPolygonShape();
-        //fixtureDef.isSensor = true;
         return fixtureDef;
     }
 
@@ -38,5 +38,15 @@ public class PhysicsRect extends PhysicsObject {
         setOrigin(Align.center);
         setCurrentPos(x, y);
         PhysicsUtils.updateRectShape(getShape(), width * .5f, height * .5f);
+    }
+
+    @Override
+    public void beginContact(Contact contact, boolean isObjectA) {
+
+    }
+
+    @Override
+    public void endContact(Contact contact, boolean isObjectA) {
+
     }
 }

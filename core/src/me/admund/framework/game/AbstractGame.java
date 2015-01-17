@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import me.admund.framework.draw.TextureRepo;
 import me.admund.framework.scenes.ScenesManager;
+import me.admund.framework.utils.FontUtils;
 
 /**
  * Created by admund on 2014-12-23.
@@ -40,5 +41,6 @@ public abstract class AbstractGame extends ApplicationAdapter {
         super.dispose();
         ScenesManager.inst().dispose();
         TextureRepo.inst().dispose();
+        FontUtils.dispose();
     }
 }

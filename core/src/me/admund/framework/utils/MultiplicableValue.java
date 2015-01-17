@@ -57,10 +57,6 @@ public class MultiplicableValue {
     }
 
     public float getValue() {
-        if(effectTime == 0f) {
-            return value;
-        } else {
-            return value * multiplier;
-        }
+        return effectTime == 0f ? value : value * multiplier;
     }
 }

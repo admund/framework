@@ -88,6 +88,10 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         setPosition(getPosition().x, getPosition().y);
     }
 
+    protected void updateRotation() {
+        super.setRotation(body.getAngle() * MathUtils.radDeg);
+    }
+
     // POSSITION
     protected void setCurrentPos(Vector2 pos) {
         setCurrentPos(pos.x, pos.y);
@@ -127,6 +131,14 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         super.setRotation(degrees);
         Vector2 pos = getPosition();
         body.setTransform(pos.x, pos.y, degrees * MathUtils.degRad);
+    }
+
+    public abstract void beginContact(Contact contact, boolean isObjectA);
+
+    public abstract void endContact(Contact contact, boolean isObjectA);
+
+    protected void createObject(PhysicsObject object) {
+        object.create(world);
     }
 
     protected Joint createJoint(JointDef joint) {

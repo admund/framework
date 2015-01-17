@@ -53,6 +53,10 @@ public class PhysicsWorld implements Disposable {
         return body;
     }
 
+    public void setContactListner(ContactListener listener) {
+        world.setContactListener(listener);
+    }
+
     public Joint createJoint(JointDef def) {
         return world.createJoint(def);
     }
