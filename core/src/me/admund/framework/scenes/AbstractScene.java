@@ -1,6 +1,7 @@
 package me.admund.framework.scenes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -50,14 +51,8 @@ public abstract class AbstractScene implements IScene {
     }
 
     protected void setInputProcessor() {
-        // TODO
-//        if(EBDGamepadManager.hasGamepad()) {
-//            EBDGamepadManager.setGamepadMenuListner();
-//            if(firstElement != null) {
-//                EBDGamepadManager.setCurrentElement(firstElement);
-//            }
-//        } else {
-            Gdx.input.setInputProcessor(stage);
-//        }
+        InputMultiplexer input = new InputMultiplexer();
+        input.addProcessor(stage);
+        Gdx.input.setInputProcessor(input);
     }
 }

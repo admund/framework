@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import me.admund.framework.draw.DrawUtils;
@@ -45,6 +46,7 @@ public class FrameworkTest extends AbstractGame {
 	}
 
 	class PhysicsRect extends PhysicsObject {
+		private Texture texture = null;
 
 		public PhysicsRect() {
 			super(new NoneType(true));
@@ -70,17 +72,25 @@ public class FrameworkTest extends AbstractGame {
 
 		public void init(int x, int y) {
 			super.init();
-			setSize(5f*2, 4f*2);
+			setSize(5f * 2, 4f * 2);
 			setOrigin(Align.center);
 			setCurrentPos(x, y);
 			PhysicsUtils.updateRectShape(getShape(), 5f, 4f);
 		}
 
-		private Texture texture = null;
-
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
 			DrawUtils.drawActor(batch, texture, this);
+		}
+
+		@Override
+		public void beginContact(Contact contact, boolean isObjectA) {
+
+		}
+
+		@Override
+		public void endContact(Contact contact, boolean isObjectA) {
+
 		}
 	}
 }

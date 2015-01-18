@@ -76,6 +76,13 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         canReuse = true;
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        updatePossition();
+        updateRotation();
+    }
+
     public void setActive(boolean isActive) {
         body.setActive(isActive);
     }
@@ -84,8 +91,12 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         return info.getType();
     }
 
-    protected void updatePossition() {
+    private void updatePossition() {
         setPosition(getPosition().x, getPosition().y);
+    }
+
+    private void updateRotation() {
+        super.setRotation(body.getAngle() * MathUtils.radDeg);
     }
 
     // POSSITION
@@ -127,6 +138,14 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         super.setRotation(degrees);
         Vector2 pos = getPosition();
         body.setTransform(pos.x, pos.y, degrees * MathUtils.degRad);
+    }
+
+    public abstract void beginContact(Contact contact, boolean isObjectA);
+
+    public abstract void endContact(Contact contact, boolean isObjectA);
+
+    protected void createObject(PhysicsObject object) {
+        object.create(world);
     }
 
     protected Joint createJoint(JointDef joint) {

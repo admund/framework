@@ -1,6 +1,7 @@
 package me.admund.framework.physics;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
@@ -53,5 +54,20 @@ public class PhysicsUtils {
             result = 360f - result;
         }
         return Math.abs(result);
+    }
+
+    // OBJ
+    public static Object getObject(Body body) {
+        Object object = null;
+        if(body != null) {
+            Object userData = body.getFixtureList().get(0).getUserData();
+            if(userData != null) {
+                if(userData instanceof PhysicsObjectInfo) {
+                    PhysicsObjectInfo info = (PhysicsObjectInfo)userData;
+                    object = info.getObj();
+                }
+            }
+        }
+        return object;
     }
 }
