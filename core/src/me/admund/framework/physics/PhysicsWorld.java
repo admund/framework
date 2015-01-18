@@ -14,8 +14,8 @@ public class PhysicsWorld implements Disposable {
     public static float WORLD_TO_BOX = 0.1f;
     public static float BOX_TO_WORLD = 10f;
 
-    public static float BOX_WORLD_WIDTH = WORLD_TO_BOX * GameConfig.GAME_WIDTH;
-    public static float BOX_WORLD_HEIGHT = WORLD_TO_BOX * GameConfig.GAME_HEIGHT;
+    public static float BOX_SCREEN_WIDTH = WORLD_TO_BOX * GameConfig.GAME_WIDTH;
+    public static float BOX_SCREEN_HEIGHT = WORLD_TO_BOX * GameConfig.GAME_HEIGHT;
 
     private World world = null;
     private Box2DDebugRenderer debugRenderer = null;
