@@ -30,6 +30,7 @@ public class PhysicsObjectInfo {
 
     public void prepereToReuse() {
         getObj().prepereToReuse();
+        toReuse = false;
     }
 
     public void setToReuse() {
