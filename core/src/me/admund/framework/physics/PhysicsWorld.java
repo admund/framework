@@ -84,7 +84,7 @@ public class PhysicsWorld implements Disposable {
         bodyList.clear();
         world.getBodies(bodyList);
 
-        System.out.println("Body list size " + bodyList.size);
+        //System.out.println("Body list size " + bodyList.size);
 
         for(int i=0; i<bodyList.size; i++) {
             Body body = bodyList.get(i);
