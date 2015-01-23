@@ -11,6 +11,8 @@ import me.admund.framework.draw.ITextureHolder;
  * Created by admund on 2014-12-23.
  */
 public abstract class PhysicsObject extends Actor implements IPhysicsObject {
+    private static final Vector2 ZERO = new Vector2(0, 0);
+
     private PhysicsObjectInfo info = null;
     private boolean canReuse = true;
     private PhysicsWorld world = null;
@@ -64,7 +66,7 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         return info;
     }
 
-    public boolean canReUse() {
+    public boolean canBeReuse() {
         return canReuse;
     }
 
@@ -72,6 +74,8 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         if(body != null) {
             body.setActive(false);
             body.setTransform(-100f, -100f, 0f);
+            body.setLinearVelocity(ZERO);
+            body.setAngularVelocity(0);
         }
         canReuse = true;
     }
@@ -144,8 +148,8 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
 
     public abstract void endContact(Contact contact, boolean isObjectA);
 
-    protected void createObject(PhysicsObject object) {
-        object.create(world);
+    protected PhysicsObject createObject(String className) {
+        return world.getPhysicsObject(className);
     }
 
     protected Joint createJoint(JointDef joint) {

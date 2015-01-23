@@ -18,17 +18,20 @@ public class PhysicsWorld implements Disposable {
     public static float BOX_SCREEN_HEIGHT = WORLD_TO_BOX * GameConfig.GAME_HEIGHT;
 
     private World world = null;
+    private ReuseFactory factory = null;
     private Box2DDebugRenderer debugRenderer = null;
     private Array<Body> bodyList = null;
 
-    public PhysicsWorld() {
-        this(new Vector2(0, 0));
+    public PhysicsWorld(ReuseFactory factory) {
+        this(new Vector2(0, 0), factory);
     }
 
-    public PhysicsWorld(Vector2 gravity) {
+    public PhysicsWorld(Vector2 gravity, ReuseFactory factory) {
         world = new World(gravity, true);
         debugRenderer = new Box2DDebugRenderer();
         bodyList = new Array<Body>();
+        this.factory = factory;
+        this.factory.setWorld(this);
     }
 
     public void step() {
@@ -42,6 +45,11 @@ public class PhysicsWorld implements Disposable {
 
     public void debugRender(Camera cam) {
         debugRenderer.render(world, cam.combined.cpy().scl(BOX_TO_WORLD));
+    }
+
+    public PhysicsObject getPhysicsObject(String className) {
+        PhysicsObject obj = factory.get(className);
+        return obj;
     }
 
     public Body createBody(IPhysicsObject obj) {
@@ -69,11 +77,14 @@ public class PhysicsWorld implements Disposable {
     public void dispose() {
         world.dispose();
         bodyList.clear();
+        factory.dispose();
     }
 
     private void prepereToReuseBodies() {
         bodyList.clear();
         world.getBodies(bodyList);
+
+        //System.out.println("Body list size " + bodyList.size);
 
         for(int i=0; i<bodyList.size; i++) {
             Body body = bodyList.get(i);

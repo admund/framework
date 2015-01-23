@@ -30,10 +30,9 @@ public class FrameworkTest extends AbstractGame {
 
 		@Override
 		public void create() {
-			world = new PhysicsWorld();
+			world = new PhysicsWorld(new FrameworkTestReuseFactory());
 
-			PhysicsRect rect1 = new PhysicsRect();
-			rect1.create(world);
+			PhysicsRect rect1 = (PhysicsRect)world.getPhysicsObject(PhysicsRect.class.toString());
 			rect1.init(35, 20);
 			stage.addActor(rect1);
 		}
@@ -42,6 +41,17 @@ public class FrameworkTest extends AbstractGame {
 		public void draw(Batch batch) {
 			super.draw(batch);
 			world.debugRender(stage.getCamera());
+		}
+	}
+
+	class FrameworkTestReuseFactory extends ReuseFactory {
+		@Override
+		public PhysicsObject createNewObj(String className) {
+			PhysicsObject obj = null;
+			if(className.equals(PhysicsRect.class.toString())) {
+				obj = new PhysicsRect();
+			}
+			return obj;
 		}
 	}
 
