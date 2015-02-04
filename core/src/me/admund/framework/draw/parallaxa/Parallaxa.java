@@ -20,13 +20,12 @@ public class Parallaxa extends DrawObject {
     public void updatePos(Vector3 cameraTransition) {
         for(int i=0; i<layerList.size; i++) {
             ParallaxaLayer layer = layerList.get(i);
-            layer.updatePos(cameraTransition.x * PhysicsWorld.WORLD_TO_BOX);
+            layer.updatePos(cameraTransition.x);// * PhysicsWorld.WORLD_TO_BOX);
         }
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        //System.out.println(layerList.size);
         for(int i=0; i<layerList.size; i++) {
             ParallaxaLayer layer = layerList.get(i);
             layer.draw(batch, parentAlpha);

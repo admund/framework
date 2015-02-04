@@ -1,0 +1,89 @@
+package me.admund.framework.draw.holders;
+
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.utils.Array;
+import me.admund.framework.draw.TextureRepo;
+import me.admund.framework.draw.animations.AnimationState;
+
+/**
+ * Created by admund on 2015-02-02.
+ */
+public class ParallaxaSpriteHolder extends AbstractSpriteHolder {
+    private Sprite sampleSprite = null;
+    private float posX = 0;
+    private float posY = 0;
+    private float range = 0;
+    private float leftBuffor = 0;
+    private float rightBuffor = 0;
+
+    public ParallaxaSpriteHolder(String textureName) {
+        this.sampleSprite = new Sprite(TextureRepo.inst().getTexture(textureName));
+    }
+
+    public void init(float startX, float startY, float sampleSizeX, float sampleSizeY, float range) {
+        this.posX = startX;
+        this.posY = startY;
+        this.range = range;
+        sampleSprite.setSize(sampleSizeX, sampleSizeY);
+        updateSprites(0);
+    }
+
+    @Override
+    public void changeAnimationState(AnimationState state) {}
+
+    public void updatePosX(float diff, float cameraTransposition) {
+        posX += cameraTransposition;
+        leftBuffor += (cameraTransposition - diff);
+        rightBuffor -= (cameraTransposition - diff);
+        updateSprites(diff);
+    }
+
+    @Override
+    public void act(float delta) {}
+
+    private void updateSpritesPos(float diff) {
+        for(int i=0; i<spriteList.size; i++) {
+            Sprite tmp = spriteList.get(i);
+            tmp.setPosition(tmp.getX() + diff, tmp.getY());
+        }
+    }
+
+    private void updateSprites(float diff) {
+        updateSpritesPos(diff);
+        addSprites();
+        removeSprites();
+    }
+
+    private void addSprites() {
+        while(leftBuffor < range) {
+            Sprite tmp = new Sprite(sampleSprite);
+            tmp.setPosition(posX - leftBuffor - sampleSprite.getWidth(), posY);
+            addSprite(tmp);
+            leftBuffor += sampleSprite.getWidth();
+        }
+
+        while(rightBuffor < range) {
+            Sprite tmp = new Sprite(sampleSprite);
+            tmp.setPosition(posX + rightBuffor, posY);
+            addSprite(tmp);
+            rightBuffor += sampleSprite.getWidth();
+        }
+    }
+
+    private void removeSprites() {
+        Array<Sprite> removeList= new Array<Sprite>();
+        float rangeLeft = posX - range;
+        float rangeRight = posX + range;
+        for(int i=0; i<spriteList.size; i++) {
+            Sprite tmp = spriteList.get(i);
+            float spriteLeftEdge = tmp.getX();
+            float spriteRightEdge = spriteLeftEdge + tmp.getWidth();
+            if(rangeLeft > spriteRightEdge) {
+                removeList.add(tmp);
+            } else if(rangeRight < spriteLeftEdge) {
+                removeList.add(tmp);
+            }
+        }
+        spriteList.removeAll(removeList, true);
+    }
+}

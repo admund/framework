@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import me.admund.framework.draw.ITextureHolder;
+import me.admund.framework.draw.holders.ISpriteHolder;
 
 /**
  * Created by admund on 2014-12-23.
@@ -18,7 +18,7 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
     private PhysicsWorld world = null;
     protected Fixture fixture = null;
     protected Body body = null;
-    private ITextureHolder textureHolder = null;
+    private ISpriteHolder textureHolder = null;
 
     public PhysicsObject(AType type) {
         info = new PhysicsObjectInfo().setType(type).setObj(this);
@@ -160,7 +160,7 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         world.destroyJoint(joint);
     }
 
-    protected void setTextureHolder(ITextureHolder textureHolder) {
+    protected void setTextureHolder(ISpriteHolder textureHolder) {
         this.textureHolder = textureHolder;
     }
 
