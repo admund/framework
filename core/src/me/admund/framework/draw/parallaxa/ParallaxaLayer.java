@@ -11,8 +11,8 @@ import me.admund.framework.physics.PhysicsWorld;
  * Created by admund on 2015-01-22.
  */
 public class ParallaxaLayer extends DrawObject {
-    private static float SIZE_X = 1500;//150
-    private static float SIZE_Y = 300; //30
+    private static float SIZE_X = 1500;
+    private static float SIZE_Y = 300;
 
     private float value = 0f;
 

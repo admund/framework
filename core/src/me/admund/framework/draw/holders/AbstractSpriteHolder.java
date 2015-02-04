@@ -14,6 +14,7 @@ public abstract class AbstractSpriteHolder implements ISpriteHolder {
         spriteList = new SpriteList();
     }
 
+    @Override
     public void addSprite(Sprite sprite) {
         spriteList.add(sprite);
     }

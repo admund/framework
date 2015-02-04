@@ -3,6 +3,7 @@ package me.admund.framework.draw;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import me.admund.framework.physics.PhysicsWorld;
 
@@ -35,5 +36,9 @@ public class DrawUtils {
             Sprite tmp = spriteList.get(i);
             tmp.draw(batch);
         }
+    }
+
+    public static Texture getRandTextureFromTab(String[] stringTab) {
+        return TextureRepo.inst().getTexture(stringTab[MathUtils.random(stringTab.length - 1)]);
     }
 }

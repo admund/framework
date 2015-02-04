@@ -1,6 +1,7 @@
 package me.admund.framework.draw.holders;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import me.admund.framework.draw.SpriteList;
 import me.admund.framework.draw.TextureRepo;
 import me.admund.framework.draw.animations.AnimationState;
@@ -8,7 +9,7 @@ import me.admund.framework.draw.animations.AnimationState;
 /**
  * Created by admund on 2014-12-29.
  */
-public class SimpleTextureHolder implements ISpriteHolder {
+public class SimpleTextureHolder extends AbstractSpriteHolder {
     private Texture texture = null;
     private String textureName = null;
 
