@@ -3,11 +3,13 @@ package me.admund.framework;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import me.admund.framework.draw.DrawUtils;
+import me.admund.framework.draw.SpriteList;
 import me.admund.framework.game.AbstractGame;
 import me.admund.framework.physics.*;
 import me.admund.framework.scenes.AbstractScene;
@@ -56,12 +58,11 @@ public class FrameworkTest extends AbstractGame {
 	}
 
 	class PhysicsRect extends PhysicsObject {
-		private Texture texture = null;
+		private SpriteList spriteList = new SpriteList();
 
 		public PhysicsRect() {
 			super(new NoneType(true));
-
-			texture = new Texture(Gdx.files.internal("badlogic.jpg"));
+			spriteList.add(new Sprite(new Texture(Gdx.files.internal("badlogic.jpg"))));
 		}
 
 		@Override
@@ -90,17 +91,13 @@ public class FrameworkTest extends AbstractGame {
 
 		@Override
 		public void draw(Batch batch, float parentAlpha) {
-			DrawUtils.drawActor(batch, texture, this);
+			DrawUtils.draw(batch, spriteList);
 		}
 
 		@Override
-		public void beginContact(Contact contact, boolean isObjectA) {
-
-		}
+		public void beginContact(Contact contact, boolean isObjectA) {}
 
 		@Override
-		public void endContact(Contact contact, boolean isObjectA) {
-
-		}
+		public void endContact(Contact contact, boolean isObjectA) {}
 	}
 }

@@ -1,10 +1,11 @@
 package me.admund.framework.physics;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import me.admund.framework.draw.SpriteList;
 import me.admund.framework.draw.holders.ISpriteHolder;
 
 /**
@@ -18,7 +19,8 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
     private PhysicsWorld world = null;
     protected Fixture fixture = null;
     protected Body body = null;
-    private ISpriteHolder textureHolder = null;
+    private ISpriteHolder spriteHolder = null;
+    private int aligment = Align.center;
 
     public PhysicsObject(AType type) {
         info = new PhysicsObjectInfo().setType(type).setObj(this);
@@ -96,7 +98,7 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
     }
 
     private void updatePossition() {
-        setPosition(getPosition().x, getPosition().y);
+        setScaledPosition(getPosition().x, getPosition().y);
     }
 
     private void updateRotation() {
@@ -112,29 +114,43 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         setCurrentPos(pos.x, pos.y, rotation);
     }
 
+    public void setAligment(int aligment) {
+        this.aligment = aligment;
+    }
+
     protected void setCurrentPos(float x, float y) {
         setCurrentPos(x, y, getRotationRad());
-        setPosition(x, y);
     }
 
     protected void setCurrentPos(float x, float y, float rotation) {
+        setScaledPosition(x, y);
         body.setTransform(x, y, rotation);
     }
 
     // SIZE
     public void setSize(float width, float height) {
-        super.setSize(width, height);
+        setScaledSize(width, height);
         PhysicsUtils.updateRectShape(getShape(), width * .5f, height * .5f);
     }
 
     public void setSize(float width, float height, Vector2[] verticles) {
-        super.setSize(width, height);
+        setScaledSize(width, height);
         PhysicsUtils.updateRectShape(getShape(), verticles);
     }
 
     public void setSize(float radius) {
-        super.setSize(radius*2, radius*2);
+        setScaledSize(radius * 2, radius * 2);
         PhysicsUtils.updateCircleShape(getShape(), radius);
+    }
+
+    private void setScaledSize(float width, float height) {
+        super.setSize(width * PhysicsWorld.BOX_TO_SCREEN, height * PhysicsWorld.BOX_TO_SCREEN);
+        updateSpriteHolder();
+    }
+
+    private void setScaledPosition(float x, float y) {
+        setPosition(x * PhysicsWorld.BOX_TO_SCREEN, y * PhysicsWorld.BOX_TO_SCREEN, aligment);
+        updateSpriteHolder();
     }
 
     @Override
@@ -160,11 +176,22 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         world.destroyJoint(joint);
     }
 
-    protected void setTextureHolder(ISpriteHolder textureHolder) {
-        this.textureHolder = textureHolder;
+    protected void setSpriteHolder(ISpriteHolder spriteHolder) {
+        this.spriteHolder = spriteHolder;
+        updateSpriteHolder();
     }
 
-    protected Texture getTexture() {
-        return textureHolder.getTexture();
+    protected SpriteList getSpriteList() {
+        return spriteHolder.getSpriteList();
+    }
+
+    private void updateSpriteHolder() {
+        if(spriteHolder != null) {
+            spriteHolder.updatePosition(getX(), getY(), getRotation());
+            spriteHolder.updateSize(getWidth(), getHeight());
+            spriteHolder.updateScale(getScaleX(), getScaleY());
+            spriteHolder.updateOrigin(getOriginX(), getOriginY());
+
+        }
     }
 }

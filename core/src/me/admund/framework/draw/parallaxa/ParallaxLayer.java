@@ -10,20 +10,20 @@ import me.admund.framework.physics.PhysicsWorld;
 /**
  * Created by admund on 2015-01-22.
  */
-public class ParallaxaLayer extends DrawObject {
-    private static float SIZE_X = 1500;
-    private static float SIZE_Y = 300;
+public class ParallaxLayer extends DrawObject {
+    private static float SIZE_X = 150;
+    private static float SIZE_Y = 30;
 
     private float value = 0f;
 
-    public ParallaxaLayer(float value, String textureName) {
+    public ParallaxLayer(float value, String textureName) {
         setTextureHolder(new ParallaxaSpriteHolder(textureName));
         this.value = value;
     }
 
     public void init(float posX, float posY) {
         setPosition(posX, posY);
-        getParallaxaSpriteHolder().init(posX, posY, SIZE_X, SIZE_Y, GameConfig.GAME_WIDTH);
+        getParallaxaSpriteHolder().init(posX, posY, SIZE_X, SIZE_Y, PhysicsWorld.BOX_SCREEN_WIDTH);
     }
 
     public void updatePos(float cameraTransition) {
@@ -33,12 +33,12 @@ public class ParallaxaLayer extends DrawObject {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        DrawUtils.drawActor(batch, getSpriteList());
+        DrawUtils.draw(batch, getSpriteList());
     }
 
     private ParallaxaSpriteHolder getParallaxaSpriteHolder() {
-        if(textureHolder instanceof ParallaxaSpriteHolder) {
-            return (ParallaxaSpriteHolder)textureHolder;
+        if(spriteHolder instanceof ParallaxaSpriteHolder) {
+            return (ParallaxaSpriteHolder)spriteHolder;
         }
         throw new NullPointerException(this + " class need ParallaxaSpriteHolder as SpriteHolder");
     }

@@ -4,12 +4,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
 import me.admund.framework.draw.TextureRepo;
 import me.admund.framework.draw.animations.AnimationState;
+import me.admund.framework.physics.PhysicsWorld;
 
 /**
  * Created by admund on 2015-02-02.
  */
 public class ParallaxaSpriteHolder extends AbstractSpriteHolder {
     private Sprite sampleSprite = null;
+    private float sampleSizeX = 0;
+    private float sampleSizeY = 0;
     private float posX = 0;
     private float posY = 0;
     private float range = 0;
@@ -24,7 +27,9 @@ public class ParallaxaSpriteHolder extends AbstractSpriteHolder {
         this.posX = startX;
         this.posY = startY;
         this.range = range;
-        sampleSprite.setSize(sampleSizeX, sampleSizeY);
+        this.sampleSizeX = sampleSizeX;
+        this.sampleSizeY = sampleSizeY;
+        sampleSprite.setSize(sampleSizeX * PhysicsWorld.BOX_TO_SCREEN, sampleSizeY * PhysicsWorld.BOX_TO_SCREEN);
         updateSprites(0);
     }
 
@@ -44,7 +49,7 @@ public class ParallaxaSpriteHolder extends AbstractSpriteHolder {
     private void updateSpritesPos(float diff) {
         for(int i=0; i<spriteList.size; i++) {
             Sprite tmp = spriteList.get(i);
-            tmp.setPosition(tmp.getX() + diff, tmp.getY());
+            tmp.setPosition(tmp.getX() + (diff * PhysicsWorld.BOX_TO_SCREEN), tmp.getY());
         }
     }
 
@@ -57,23 +62,24 @@ public class ParallaxaSpriteHolder extends AbstractSpriteHolder {
     private void addSprites() {
         while(leftBuffor < range) {
             Sprite tmp = new Sprite(sampleSprite);
-            tmp.setPosition(posX - leftBuffor - sampleSprite.getWidth(), posY);
+            tmp.setPosition((posX - leftBuffor - sampleSizeX) * PhysicsWorld.BOX_TO_SCREEN,
+                    posY * PhysicsWorld.BOX_TO_SCREEN);
             addSprite(tmp);
-            leftBuffor += sampleSprite.getWidth();
+            leftBuffor += sampleSizeX;
         }
 
         while(rightBuffor < range) {
             Sprite tmp = new Sprite(sampleSprite);
-            tmp.setPosition(posX + rightBuffor, posY);
+            tmp.setPosition((posX + rightBuffor) * PhysicsWorld.BOX_TO_SCREEN, posY * PhysicsWorld.BOX_TO_SCREEN);
             addSprite(tmp);
-            rightBuffor += sampleSprite.getWidth();
+            rightBuffor += sampleSizeX;
         }
     }
 
     private void removeSprites() {
         Array<Sprite> removeList= new Array<Sprite>();
-        float rangeLeft = posX - range;
-        float rangeRight = posX + range;
+        float rangeLeft = (posX - range) * PhysicsWorld.BOX_TO_SCREEN;
+        float rangeRight = (posX + range) * PhysicsWorld.BOX_TO_SCREEN;
         for(int i=0; i<spriteList.size; i++) {
             Sprite tmp = spriteList.get(i);
             float spriteLeftEdge = tmp.getX();

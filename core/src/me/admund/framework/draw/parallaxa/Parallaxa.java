@@ -10,24 +10,24 @@ import me.admund.framework.physics.PhysicsWorld;
  * Created by admund on 2015-01-22.
  */
 public class Parallaxa extends DrawObject {
-    private Array<ParallaxaLayer> layerList = new Array<ParallaxaLayer>();
+    private Array<ParallaxLayer> layerList = new Array<ParallaxLayer>();
 
-    public void addLayer(ParallaxaLayer layer) {
+    public void addLayer(ParallaxLayer layer) {
         layerList.add(layer);
         layer.init(0, 0);
     }
 
     public void updatePos(Vector3 cameraTransition) {
         for(int i=0; i<layerList.size; i++) {
-            ParallaxaLayer layer = layerList.get(i);
-            layer.updatePos(cameraTransition.x);// * PhysicsWorld.WORLD_TO_BOX);
+            ParallaxLayer layer = layerList.get(i);
+            layer.updatePos(cameraTransition.x * PhysicsWorld.SCREEN_TO_BOX);
         }
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         for(int i=0; i<layerList.size; i++) {
-            ParallaxaLayer layer = layerList.get(i);
+            ParallaxLayer layer = layerList.get(i);
             layer.draw(batch, parentAlpha);
         }
     }

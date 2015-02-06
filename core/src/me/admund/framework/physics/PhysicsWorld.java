@@ -11,11 +11,11 @@ import me.admund.framework.GameConfig;
  * Created by admund on 2014-12-23.
  */
 public class PhysicsWorld implements Disposable {
-    public static float WORLD_TO_BOX = 0.1f;
-    public static float BOX_TO_WORLD = 10f;
+    public static float SCREEN_TO_BOX = 0.1f;
+    public static float BOX_TO_SCREEN = 10f;
 
-    public static float BOX_SCREEN_WIDTH = WORLD_TO_BOX * GameConfig.GAME_WIDTH;
-    public static float BOX_SCREEN_HEIGHT = WORLD_TO_BOX * GameConfig.GAME_HEIGHT;
+    public static float BOX_SCREEN_WIDTH = SCREEN_TO_BOX * GameConfig.GAME_WIDTH;
+    public static float BOX_SCREEN_HEIGHT = SCREEN_TO_BOX * GameConfig.GAME_HEIGHT;
 
     private World world = null;
     private ReuseFactory factory = null;
@@ -44,7 +44,7 @@ public class PhysicsWorld implements Disposable {
     }
 
     public void debugRender(Camera cam) {
-        debugRenderer.render(world, cam.combined.cpy().scl(BOX_TO_WORLD));
+        debugRenderer.render(world, cam.combined.cpy().scl(BOX_TO_SCREEN));
     }
 
     public PhysicsObject getPhysicsObject(String className) {
