@@ -9,7 +9,7 @@ import me.admund.framework.physics.PhysicsWorld;
 /**
  * Created by admund on 2015-01-22.
  */
-public class Parallaxa extends DrawObject {
+public class Parallax extends DrawObject {
     private Array<ParallaxLayer> layerList = new Array<ParallaxLayer>();
 
     public void addLayer(ParallaxLayer layer) {

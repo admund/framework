@@ -98,7 +98,8 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
     }
 
     private void updatePossition() {
-        setScaledPosition(getPosition().x, getPosition().y);
+        setPosition(getPosition().x, getPosition().y, aligment);
+        updateSpriteHolder();
     }
 
     private void updateRotation() {
@@ -123,33 +124,27 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
     }
 
     protected void setCurrentPos(float x, float y, float rotation) {
-        setScaledPosition(x, y);
+        super.setPosition(x, y, aligment);
         body.setTransform(x, y, rotation);
+        updateSpriteHolder();
     }
 
     // SIZE
     public void setSize(float width, float height) {
-        setScaledSize(width, height);
+        super.setSize(width, height);
         PhysicsUtils.updateRectShape(getShape(), width * .5f, height * .5f);
-    }
-
-    public void setSize(float width, float height, Vector2[] verticles) {
-        setScaledSize(width, height);
-        PhysicsUtils.updateRectShape(getShape(), verticles);
-    }
-
-    public void setSize(float radius) {
-        setScaledSize(radius * 2, radius * 2);
-        PhysicsUtils.updateCircleShape(getShape(), radius);
-    }
-
-    private void setScaledSize(float width, float height) {
-        super.setSize(width * PhysicsWorld.BOX_TO_SCREEN, height * PhysicsWorld.BOX_TO_SCREEN);
         updateSpriteHolder();
     }
 
-    private void setScaledPosition(float x, float y) {
-        setPosition(x * PhysicsWorld.BOX_TO_SCREEN, y * PhysicsWorld.BOX_TO_SCREEN, aligment);
+    public void setSize(float width, float height, Vector2[] verticles) {
+        super.setSize(width, height);
+        PhysicsUtils.updateRectShape(getShape(), verticles);
+        updateSpriteHolder();
+    }
+
+    public void setSize(float radius) {
+        super.setSize(radius * 2, radius * 2);
+        PhysicsUtils.updateCircleShape(getShape(), radius);
         updateSpriteHolder();
     }
 
@@ -185,13 +180,13 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         return spriteHolder.getSpriteList();
     }
 
-    private void updateSpriteHolder() {
+    protected void updateSpriteHolder() {
         if(spriteHolder != null) {
-            spriteHolder.updatePosition(getX(), getY(), getRotation());
-            spriteHolder.updateSize(getWidth(), getHeight());
+            spriteHolder.updatePosition(getX() * PhysicsWorld.BOX_TO_SCREEN, getY() * PhysicsWorld.BOX_TO_SCREEN,
+                    getRotation());
+            spriteHolder.updateSize(getWidth() * PhysicsWorld.BOX_TO_SCREEN, getHeight() * PhysicsWorld.BOX_TO_SCREEN);
             spriteHolder.updateScale(getScaleX(), getScaleY());
-            spriteHolder.updateOrigin(getOriginX(), getOriginY());
-
+            spriteHolder.updateOrigin(getOriginX() * PhysicsWorld.BOX_TO_SCREEN, getOriginY() * PhysicsWorld.BOX_TO_SCREEN);
         }
     }
 }

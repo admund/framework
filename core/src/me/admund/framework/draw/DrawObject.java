@@ -27,23 +27,23 @@ public abstract class DrawObject extends Actor {
         }
     }
 
-    public void setScaledSize(float width, float hight) {
-        setSize(width * PhysicsWorld.BOX_TO_SCREEN, hight * PhysicsWorld.BOX_TO_SCREEN);
+    public void setSize(float width, float hight) {
+        super.setSize(width, hight);
         updateSpriteHolder();
     }
 
-    public void setScaledPosition(float x, float y) {
-        setPosition(x * PhysicsWorld.BOX_TO_SCREEN, y * PhysicsWorld.BOX_TO_SCREEN);
+    public void setPosition(float x, float y) {
+        super.setPosition(x, y);
         updateSpriteHolder();
     }
 
-    private void updateSpriteHolder() {
+    protected void updateSpriteHolder() {
         if(spriteHolder != null) {
-            spriteHolder.updatePosition(getX(), getY(), getRotation());
-            spriteHolder.updateSize(getWidth(), getHeight());
+            spriteHolder.updatePosition(getX() * PhysicsWorld.BOX_TO_SCREEN, getY() * PhysicsWorld.BOX_TO_SCREEN,
+                    getRotation());
+            spriteHolder.updateSize(getWidth() * PhysicsWorld.BOX_TO_SCREEN, getHeight() * PhysicsWorld.BOX_TO_SCREEN);
             spriteHolder.updateScale(getScaleX(), getScaleY());
-            spriteHolder.updateOrigin(getOriginX(), getOriginY());
-
+            spriteHolder.updateOrigin(getOriginX() * PhysicsWorld.BOX_TO_SCREEN, getOriginY() * PhysicsWorld.BOX_TO_SCREEN);
         }
     }
 }
