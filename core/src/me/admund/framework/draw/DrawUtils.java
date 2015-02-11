@@ -2,6 +2,8 @@ package me.admund.framework.draw;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import me.admund.framework.physics.PhysicsWorld;
 
@@ -10,23 +12,33 @@ import me.admund.framework.physics.PhysicsWorld;
  */
 public class DrawUtils {
 
-    public static void drawActor(Batch batch, Texture texture, Actor actor) {
-        drawActor(batch, texture, actor, false, false);
+//    public static void drawActor(Batch batch, Texture texture, Actor actor) {
+//        drawActor(batch, texture, actor, false, false);
+//    }
+//
+//    public static void drawActor(Batch batch, Texture texture, Actor actor, boolean flipX, boolean flipY) {
+//        batch.draw(texture,
+//                (actor.getX() - actor.getOriginX()) * PhysicsWorld.BOX_TO_SCREEN,
+//                (actor.getY() - actor.getOriginY()) * PhysicsWorld.BOX_TO_SCREEN,
+//                actor.getOriginX() * PhysicsWorld.BOX_TO_SCREEN,
+//                actor.getOriginY() * PhysicsWorld.BOX_TO_SCREEN,
+//                actor.getWidth() * PhysicsWorld.BOX_TO_SCREEN,
+//                actor.getHeight() * PhysicsWorld.BOX_TO_SCREEN,
+//                actor.getScaleX(),
+//                actor.getScaleY(),
+//                actor.getRotation(),
+//                0, 0, texture.getWidth(), texture.getHeight(),
+//                flipX, flipY);
+//    }
+
+    public static void draw(Batch batch, SpriteList spriteList) {
+        for(int i=0; i<spriteList.size; i++) {
+            Sprite tmp = spriteList.get(i);
+            tmp.draw(batch);
+        }
     }
 
-    public static void drawActor(Batch batch, Texture texture, Actor actor, boolean flipX, boolean flipY) {
-        batch.draw(texture,
-                (actor.getX()-actor.getOriginX())*PhysicsWorld.BOX_TO_WORLD,
-                (actor.getY()-actor.getOriginY())*PhysicsWorld.BOX_TO_WORLD,
-                actor.getOriginX()*PhysicsWorld.BOX_TO_WORLD,
-                actor.getOriginY()*PhysicsWorld.BOX_TO_WORLD,
-                actor.getWidth()*PhysicsWorld.BOX_TO_WORLD,
-                actor.getHeight()*PhysicsWorld.BOX_TO_WORLD,
-                actor.getScaleX(),
-                actor.getScaleY(),
-                actor.getRotation(),
-                0, 0, texture.getWidth(), texture.getHeight(),
-                flipX, flipY);
+    public static Texture getRandTextureFromTab(String[] stringTab) {
+        return TextureRepo.inst().getTexture(stringTab[MathUtils.random(stringTab.length - 1)]);
     }
-
 }
