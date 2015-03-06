@@ -39,7 +39,7 @@ public abstract class ReuseFactory implements Disposable {
         }
 
         if(obj == null) {
-            throw new NullPointerException("ReuseFactory didn't implement create function for " + className + " class");
+            throw new RuntimeException("ReuseFactory didn't implement createTextButtonStyle function for " + className + " class");
         }
         return obj;
     }

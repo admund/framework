@@ -40,6 +40,6 @@ public class ParallaxLayer extends DrawObject {
         if(spriteHolder instanceof ParallaxaSpriteHolder) {
             return (ParallaxaSpriteHolder)spriteHolder;
         }
-        throw new NullPointerException(this + " class need ParallaxaSpriteHolder as SpriteHolder");
+        throw new RuntimeException(this + " class need ParallaxaSpriteHolder as SpriteHolder");
     }
 }
