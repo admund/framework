@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import me.admund.framework.achievements.IAchievementsProvider;
 import me.admund.framework.draw.TextureRepo;
 import me.admund.framework.scenes.ScenesManager;
 import me.admund.framework.utils.FontUtils;
@@ -16,6 +17,12 @@ public abstract class AbstractGame extends ApplicationAdapter {
     private SpriteBatch batch = null;
 
     protected Color clearColor = Color.BLACK;
+
+    protected IAchievementsProvider achievementsProvider = null;
+
+    public AbstractGame(IAchievementsProvider achievementsProvider) {
+        this.achievementsProvider = achievementsProvider;
+    }
 
     @Override
     public void create () {

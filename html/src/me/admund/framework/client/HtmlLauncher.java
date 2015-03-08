@@ -4,7 +4,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.gwt.GwtApplication;
 import com.badlogic.gdx.backends.gwt.GwtApplicationConfiguration;
 import me.admund.framework.FrameworkTest;
-import me.admund.framework.GameConfig;
 
 public class HtmlLauncher extends GwtApplication {
 
@@ -15,6 +14,6 @@ public class HtmlLauncher extends GwtApplication {
 
         @Override
         public ApplicationListener getApplicationListener () {
-                return new FrameworkTest();
+                return new FrameworkTest(null);
         }
 }

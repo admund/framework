@@ -62,3 +62,4 @@ build/
 
 ## OS Specific
 .DS_Store
+desktop/src/me/admund/framework/desktop/GameJoltPrivate.java
