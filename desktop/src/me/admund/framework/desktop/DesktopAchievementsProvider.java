@@ -15,12 +15,29 @@ public class DesktopAchievementsProvider implements IAchievementsProvider {
     }
 
     @Override
-    public boolean sendHighscore(int score) {
+    public void signIn() {}
+
+    @Override
+    public void signOut() {}
+
+    @Override
+    public void rateGame() {}
+
+    @Override
+    public boolean submitScore(int score) {
         System.out.println("verbose " + api.isVerbose());
         if(api.isVerified()) {
             return api.addHighscore(score + " pts", score);
         } else {
             return api.addHighscore("BabyDropGuest", score + " pts", score);
         }
+    }
+
+    @Override
+    public void showScores() {}
+
+    @Override
+    public boolean isSignedIn() {
+        return false;
     }
 }
