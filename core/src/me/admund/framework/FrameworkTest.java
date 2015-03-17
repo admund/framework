@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import me.admund.framework.achievements.IAchievementsProvider;
 import me.admund.framework.draw.DrawUtils;
 import me.admund.framework.draw.SpriteList;
 import me.admund.framework.game.AbstractGame;
@@ -16,6 +17,10 @@ import me.admund.framework.scenes.AbstractScene;
 import me.admund.framework.scenes.ScenesManager;
 
 public class FrameworkTest extends AbstractGame {
+
+	public FrameworkTest(IAchievementsProvider achievementsProvider) {
+		super(achievementsProvider);
+	}
 
 	@Override
 	public void create () {

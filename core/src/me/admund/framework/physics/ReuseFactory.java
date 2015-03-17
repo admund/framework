@@ -34,13 +34,13 @@ public abstract class ReuseFactory implements Disposable {
         obj = getReusableObject(tmpArray);
         if(obj == null) {
             obj = createNewObj(className);
+            if(obj == null) {
+                throw new RuntimeException("ReuseFactory didn't implement create function for " + className + " class");
+            }
             obj.create(world);
             tmpArray.add(obj);
         }
 
-        if(obj == null) {
-            throw new NullPointerException("ReuseFactory didn't implement create function for " + className + " class");
-        }
         return obj;
     }
 

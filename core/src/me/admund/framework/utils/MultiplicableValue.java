@@ -56,6 +56,10 @@ public class MultiplicableValue {
         }
     }
 
+    public void changeBaseValue(float value) {
+        this.value = value;
+    }
+
     public float getValue() {
         return effectTime == 0f ? value : value * multiplier;
     }

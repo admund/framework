@@ -10,6 +10,10 @@ import me.admund.framework.physics.PhysicsWorld;
 public abstract class DrawObject extends Actor {
     protected ISpriteHolder spriteHolder = null;
 
+    protected boolean hasSpriteHolder() {
+        return spriteHolder != null;
+    }
+
     protected void setTextureHolder(ISpriteHolder textureHolder) {
         this.spriteHolder = textureHolder;
         updateSpriteHolder();

@@ -33,6 +33,8 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
 
     public void init() {
         body.setActive(true);
+        body.setLinearVelocity(ZERO);
+        body.setAngularVelocity(0);
         canReuse = false;
     }
 
@@ -169,6 +171,10 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
 
     protected void destoryJoint(Joint joint) {
         world.destroyJoint(joint);
+    }
+
+    protected boolean hasSpriteHolder() {
+        return spriteHolder != null;
     }
 
     protected void setSpriteHolder(ISpriteHolder spriteHolder) {
