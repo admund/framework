@@ -2,7 +2,7 @@ package me.admund.framework.draw.holders;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.utils.Array;
-import me.admund.framework.draw.TextureRepo;
+import me.admund.framework.GameUtils;
 import me.admund.framework.draw.animations.AnimationState;
 import me.admund.framework.physics.PhysicsWorld;
 
@@ -20,7 +20,7 @@ public class ParallaxaSpriteHolder extends AbstractSpriteHolder {
     private float rightBuffor = 0;
 
     public ParallaxaSpriteHolder(String textureName) {
-        this.sampleSprite = new Sprite(TextureRepo.inst().getTexture(textureName));
+        this.sampleSprite = new Sprite(GameUtils.assetsManager.getTextureRegion(textureName));
     }
 
     public void init(float startX, float startY, float sampleSizeX, float sampleSizeY, float range) {

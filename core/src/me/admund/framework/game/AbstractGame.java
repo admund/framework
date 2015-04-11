@@ -2,11 +2,12 @@ package me.admund.framework.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import me.admund.framework.GameUtils;
 import me.admund.framework.achievements.IAchievementsProvider;
-import me.admund.framework.draw.TextureRepo;
 import me.admund.framework.scenes.ScenesManager;
 import me.admund.framework.utils.FontUtils;
 
@@ -20,12 +21,18 @@ public abstract class AbstractGame extends ApplicationAdapter {
 
     protected IAchievementsProvider achievementsProvider = null;
 
+    protected AssetManager assetManager = null;
+
     public AbstractGame(IAchievementsProvider achievementsProvider) {
         this.achievementsProvider = achievementsProvider;
+        this.assetManager = new AssetManager();
     }
+
+    public abstract void load();
 
     @Override
     public void create () {
+        load();
         batch = new SpriteBatch();
     }
 
@@ -47,7 +54,7 @@ public abstract class AbstractGame extends ApplicationAdapter {
     public void dispose() {
         super.dispose();
         ScenesManager.inst().dispose();
-        TextureRepo.inst().dispose();
+        GameUtils.dispose();
         FontUtils.dispose();
     }
 }

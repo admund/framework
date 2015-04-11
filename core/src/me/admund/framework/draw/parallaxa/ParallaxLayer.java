@@ -1,7 +1,6 @@
 package me.admund.framework.draw.parallaxa;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import me.admund.framework.GameConfig;
 import me.admund.framework.draw.DrawObject;
 import me.admund.framework.draw.DrawUtils;
 import me.admund.framework.draw.holders.ParallaxaSpriteHolder;
@@ -17,7 +16,7 @@ public class ParallaxLayer extends DrawObject {
     private float value = 0f;
 
     public ParallaxLayer(float value, String textureName) {
-        setTextureHolder(new ParallaxaSpriteHolder(textureName));
+        setSpriteHolder(new ParallaxaSpriteHolder(textureName));
         this.value = value;
     }
 

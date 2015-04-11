@@ -1,7 +1,7 @@
 package me.admund.framework.draw.sprites;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import me.admund.framework.physics.PhysicsWorld;
 
 /**
@@ -11,7 +11,7 @@ public class OffsetSprite extends Sprite {
     private float offsetX = 0;
     private float offsetY = 0;
 
-    public OffsetSprite(Texture texture) {
+    public OffsetSprite(TextureRegion texture) {
         super(texture);
     }
 

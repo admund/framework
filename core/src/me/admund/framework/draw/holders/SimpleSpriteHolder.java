@@ -1,7 +1,7 @@
 package me.admund.framework.draw.holders;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import me.admund.framework.draw.TextureRepo;
+import me.admund.framework.GameUtils;
 import me.admund.framework.draw.animations.AnimationState;
 
 /**
@@ -10,7 +10,7 @@ import me.admund.framework.draw.animations.AnimationState;
 public class SimpleSpriteHolder extends AbstractSpriteHolder {
 
     public SimpleSpriteHolder(String textureName) {
-        addSprite(new Sprite(TextureRepo.inst().getTexture(textureName)));
+        addSprite(new Sprite(GameUtils.assetsManager.getTextureRegion(textureName)));
     }
 
     @Override

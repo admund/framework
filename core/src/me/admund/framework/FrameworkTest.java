@@ -23,6 +23,9 @@ public class FrameworkTest extends AbstractGame {
 	}
 
 	@Override
+	public void load() {}
+
+	@Override
 	public void create () {
 		ScenesManager.inst().push(new TestScene(), true);
 	}
