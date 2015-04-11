@@ -14,6 +14,8 @@ import me.admund.framework.draw.SpriteList;
 import me.admund.framework.game.AbstractGame;
 import me.admund.framework.physics.*;
 import me.admund.framework.scenes.AbstractScene;
+import me.admund.framework.scenes.IScene;
+import me.admund.framework.scenes.LoadingScene;
 import me.admund.framework.scenes.ScenesManager;
 
 public class FrameworkTest extends AbstractGame {
@@ -33,6 +35,11 @@ public class FrameworkTest extends AbstractGame {
 	@Override
 	public void render() {
 		super.render();
+	}
+
+	@Override
+	protected IScene getFirstScene() {
+		return new TestScene();
 	}
 
 	class TestScene extends AbstractScene {

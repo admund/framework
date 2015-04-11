@@ -2,12 +2,13 @@ package me.admund.framework.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import me.admund.framework.GameUtils;
 import me.admund.framework.achievements.IAchievementsProvider;
+import me.admund.framework.scenes.IScene;
+import me.admund.framework.scenes.LoadingScene;
 import me.admund.framework.scenes.ScenesManager;
 import me.admund.framework.utils.FontUtils;
 
@@ -16,16 +17,14 @@ import me.admund.framework.utils.FontUtils;
  */
 public abstract class AbstractGame extends ApplicationAdapter {
     private SpriteBatch batch = null;
+    private boolean loadingAssets = true;
 
     protected Color clearColor = Color.BLACK;
 
     protected IAchievementsProvider achievementsProvider = null;
 
-    protected AssetManager assetManager = null;
-
     public AbstractGame(IAchievementsProvider achievementsProvider) {
         this.achievementsProvider = achievementsProvider;
-        this.assetManager = new AssetManager();
     }
 
     public abstract void load();
@@ -33,6 +32,7 @@ public abstract class AbstractGame extends ApplicationAdapter {
     @Override
     public void create () {
         load();
+        ScenesManager.inst().push(getLoadingScene(), true);
         batch = new SpriteBatch();
     }
 
@@ -43,6 +43,13 @@ public abstract class AbstractGame extends ApplicationAdapter {
 
         ScenesManager.inst().peek().act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
         ScenesManager.inst().peek().draw(batch);
+
+        if(loadingAssets && GameUtils.assetsManager.update()) {
+            loadingAssets = false;
+            GameUtils.assetsManager.init();
+
+            ScenesManager.inst().push(getFirstScene(), true);
+        }
     }
 
     @Override
@@ -56,5 +63,10 @@ public abstract class AbstractGame extends ApplicationAdapter {
         ScenesManager.inst().dispose();
         GameUtils.dispose();
         FontUtils.dispose();
+    }
+
+    protected abstract IScene getFirstScene();
+    protected IScene getLoadingScene() {
+        return new LoadingScene();
     }
 }

@@ -89,6 +89,7 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         super.act(delta);
         updatePossition();
         updateRotation();
+        if(hasSpriteHolder()) spriteHolder.act(delta);
     }
 
     public void setActive(boolean isActive) {
