@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import me.admund.framework.GameConfig;
 
 /**
@@ -17,8 +17,8 @@ public abstract class AbstractScene implements IScene {
     //protected IGamepadMenuElement firstElement = null; TODO
 
     public AbstractScene() {
-        stage = new Stage(new StretchViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT));
-        guiStage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        stage = new Stage(new ExtendViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT));
+        guiStage = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         setInputProcessor();
     }
 
