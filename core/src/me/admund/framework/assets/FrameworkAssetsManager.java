@@ -1,6 +1,8 @@
 package me.admund.framework.assets;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
@@ -12,6 +14,20 @@ public abstract class FrameworkAssetsManager extends AssetManager {
     protected TextureAtlas mainAtlas = null;
 
     public abstract void init();
+
+    public Sound getSound(String soundName) {
+        Sound sound = get(soundName, Sound.class);
+        if(sound == null) throw new RuntimeException("FrameworkAssetsManager: Sound named \""
+                + soundName + "\" not found");
+        return sound;
+    }
+
+    public Music getMusic(String musicName) {
+        Music music = get(musicName, Music.class);
+        if(music == null) throw new RuntimeException("FrameworkAssetsManager: Music named \""
+                + musicName + "\" not found");
+        return music;
+    }
 
     public TextureRegion getTextureRegion(String fileName) {
         if(mainAtlas == null) throw new RuntimeException("FrameworkAssetsManager: Main Atlas not set");

@@ -16,6 +16,7 @@ public class AndroidLauncher extends AndroidApplication {
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+		config.numSamples = 2;
 		provider = new AndroidAchivmentsProvider(this);
 		initialize(new FrameworkTest(provider), config);
 	}
