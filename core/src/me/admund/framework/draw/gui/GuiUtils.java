@@ -15,7 +15,7 @@ public class GuiUtils {
     }
 
     public static Drawable createSpriteDrawable(String textureName) {
-        return new SpriteDrawable(new Sprite(GameUtils.assetsManager.getTextureRegion(textureName)));
+        return new SpriteDrawable(new Sprite(GameUtils.assetsManager.getTextureRegionFromMain(textureName)));
     }
 
 }

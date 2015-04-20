@@ -10,7 +10,7 @@ import me.admund.framework.draw.animations.AnimationState;
 public class SimpleSpriteHolder extends AbstractSpriteHolder {
 
     public SimpleSpriteHolder(String textureName) {
-        addSprite(new Sprite(GameUtils.assetsManager.getTextureRegion(textureName)));
+        addSprite(new Sprite(GameUtils.assetsManager.getTextureRegionFromMain(textureName)));
     }
 
     @Override

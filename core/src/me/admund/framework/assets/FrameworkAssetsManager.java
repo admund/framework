@@ -3,9 +3,11 @@ package me.admund.framework.assets;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
+import me.admund.framework.GameUtils;
 
 /**
  * Created by admund on 2015-04-11.
@@ -30,6 +32,10 @@ public abstract class FrameworkAssetsManager extends AssetManager {
     }
 
     public TextureRegion getTextureRegion(String fileName) {
+        return new TextureRegion(getTexture(fileName));
+    }
+
+    public TextureRegion getTextureRegionFromMain(String fileName) {
         if(mainAtlas == null) throw new RuntimeException("FrameworkAssetsManager: Main Atlas not set");
         return getTextureRegion("Main", mainAtlas, fileName);
     }
@@ -51,6 +57,13 @@ public abstract class FrameworkAssetsManager extends AssetManager {
         if(atlas == null) throw new RuntimeException("FrameworkAssetsManager: Atlas named \""
                 + textureAtlasName + "\" not found");
         return getTextureRegions(textureAtlasName, atlas, fileName);
+    }
+
+    private Texture getTexture(String textureName) {
+        Texture texture = get(textureName, Texture.class);
+        if(texture == null) throw new RuntimeException("FrameworkAssetsManager: Texture named \""
+                + textureName + "\" not found");
+        return texture;
     }
 
     private TextureRegion getTextureRegion(String textureAtlasName, TextureAtlas atlas, String fileName) {

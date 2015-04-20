@@ -19,6 +19,6 @@ public class DrawUtils {
     }
 
     public static TextureRegion getRandTextureFromTab(String[] stringTab) {
-        return GameUtils.assetsManager.getTextureRegion(stringTab[MathUtils.random(stringTab.length - 1)]);
+        return GameUtils.assetsManager.getTextureRegionFromMain(stringTab[MathUtils.random(stringTab.length - 1)]);
     }
 }
