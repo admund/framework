@@ -20,7 +20,8 @@ public class ParallaxaSpriteHolder extends AbstractSpriteHolder {
     private float rightBuffor = 0;
 
     public ParallaxaSpriteHolder(String textureName) {
-        this.sampleSprite = new Sprite(GameUtils.assetsManager.getTextureRegion(textureName));
+        //this.sampleSprite = new Sprite(GameUtils.assetsManager.getTextureRegion(textureName)); // TODO
+        this.sampleSprite = new Sprite(GameUtils.assetsManager.getTextureRegionFromMain(textureName)); // TODO
     }
 
     public void init(float startX, float startY, float sampleSizeX, float sampleSizeY, float range) {
