@@ -20,6 +20,8 @@ public class SimpleDrawObject extends DrawObject {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        DrawUtils.draw(batch, getSpriteList());
+        if(isVisible()) {
+            DrawUtils.draw(batch, getSpriteList());
+        }
     }
 }

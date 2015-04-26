@@ -63,17 +63,11 @@ public abstract class ParallaxLayer {
     private void addRegion() {
         while (layerLeftBuffor < screenSize) {
             regionList.add(create(currentLayerPosX - layerLeftBuffor - regionSizeX));
-
-            System.out.println("addRegion 1 " + currentLayerPosX + " " + (currentLayerPosX - layerLeftBuffor - regionSizeX));
-
             layerLeftBuffor += regionSizeX;
         }
 
         while(layerRightBuffor < screenSize) {
             regionList.add(create(currentLayerPosX + layerRightBuffor));
-
-            System.out.println("addRegion 2 " + currentLayerPosX + " " + (currentLayerPosX + layerRightBuffor));
-
             layerRightBuffor += regionSizeX;
         }
     }
@@ -89,12 +83,8 @@ public abstract class ParallaxLayer {
             float spriteRightEdge = spriteLeftEdge + tmpRegion.getWidth();
             if(rangeLeft > spriteRightEdge) {
                 removeList.add(tmpRegion);
-
-                System.out.println("removeRegion 2");
             } else if(rangeRight < spriteLeftEdge) {
                 removeList.add(tmpRegion);
-
-                System.out.println("removeRegion 1");
             }
         }
         regionList.removeAll(removeList, true);
