@@ -24,7 +24,7 @@ public class ParallaxaLayerRegion extends DrawObject {
         setPosition(getX() + layerTransposition, getY());
         for(int i=0; i<drawObjectList.size; i++) {
             DrawObject tmp = drawObjectList.get(i);
-            tmp.setPosition(tmp.getX() + layerTransposition, getY());
+            tmp.setPosition(tmp.getX() + layerTransposition, tmp.getY());
         }
     }
 
