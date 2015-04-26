@@ -13,12 +13,11 @@ public class Parallax extends DrawObject {
     private Array<ParallaxLayer> layerList = new Array<ParallaxLayer>();
 
     public void addLayer(ParallaxLayer layer) {
-        addLayer(layer, 0, 0);
+        layerList.add(layer);
     }
 
-    public void addLayer(ParallaxLayer layer, float posX, float posY) {
-        layerList.add(layer);
-        layer.init(posX, posY);
+    public void addLayers(Array<ParallaxLayer> layers) {
+        layerList.addAll(layers);
     }
 
     public void updatePos(Vector3 cameraTransition) {

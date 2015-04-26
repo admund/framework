@@ -1,44 +1,102 @@
 package me.admund.framework.draw.parallaxa;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import me.admund.framework.draw.DrawObject;
-import me.admund.framework.draw.DrawUtils;
-import me.admund.framework.draw.holders.ParallaxaSpriteHolder;
+import com.badlogic.gdx.utils.Array;
 import me.admund.framework.physics.PhysicsWorld;
 
 /**
  * Created by admund on 2015-01-22.
  */
-public class ParallaxLayer extends DrawObject {
-    private static float SIZE_X = 77;//750;//150;//750;
-    private static float SIZE_Y = 60;//30;//60;
+public abstract class ParallaxLayer {
+    protected float regionSizeX = 0;
+    protected float regionSizeY = 0;
+    protected float posY = 0;
 
     private float value = 0f;
+    private float screenSize = 0;
 
-    public ParallaxLayer(float value, String textureName) {
-        setSpriteHolder(new ParallaxaSpriteHolder(textureName));
+    private float currentLayerPosX = 0;
+    private float layerLeftBuffor = 0;
+    private float layerRightBuffor = 0;
+
+    private Array<ParallaxaLayerRegion> regionList = null;
+
+    public ParallaxLayer(float regionSizeX, float regionSizeY, float value) {
+        this(regionSizeX, regionSizeY, 0, value);
+    }
+
+    public ParallaxLayer(float regionSizeX, float regionSizeY, float posY, float value) {
         this.value = value;
+        this.posY = posY;
+        this.regionSizeX = regionSizeX;
+        this.regionSizeY = regionSizeY;
+        this.screenSize = Gdx.graphics.getWidth() * PhysicsWorld.SCREEN_TO_BOX;
+
+        this.regionList = new Array<ParallaxaLayerRegion>();
     }
 
-    public void init(float posX, float posY) {
-        setPosition(posX, posY);
-        getParallaxaSpriteHolder().init(posX, posY, SIZE_X, SIZE_Y, PhysicsWorld.BOX_SCREEN_WIDTH);
+    public abstract ParallaxaLayerRegion create(float startPosX);
+
+    public void updatePos(float cameraTransposition) {
+        float layerTansposiotion = cameraTransposition * value;
+        currentLayerPosX += cameraTransposition;
+        layerLeftBuffor += (cameraTransposition - layerTansposiotion);
+        layerRightBuffor -= (cameraTransposition - layerTansposiotion);
+        updateRegions(layerTansposiotion);
+        addRegion();
+        removeRegion();
     }
 
-    public void updatePos(float cameraTransition) {
-        setX(getX() + value * cameraTransition);
-        getParallaxaSpriteHolder().updatePosX(value * cameraTransition, cameraTransition);
-    }
-
-    @Override
     public void draw(Batch batch, float parentAlpha) {
-        DrawUtils.draw(batch, getSpriteList());
+        for(int i=0; i< regionList.size; i++) {
+            regionList.get(i).draw(batch, parentAlpha);
+        }
     }
 
-    private ParallaxaSpriteHolder getParallaxaSpriteHolder() {
-        if(spriteHolder instanceof ParallaxaSpriteHolder) {
-            return (ParallaxaSpriteHolder)spriteHolder;
+    private void updateRegions(float cameraTransposition) {
+        for(int i=0; i<regionList.size; i++) {
+            regionList.get(i).updatePos(cameraTransposition);
         }
-        throw new RuntimeException(this + " class need ParallaxaSpriteHolder as SpriteHolder");
+    }
+
+    private void addRegion() {
+        while (layerLeftBuffor < screenSize) {
+            regionList.add(create(currentLayerPosX - layerLeftBuffor - regionSizeX));
+
+            System.out.println("addRegion 1 " + currentLayerPosX + " " + (currentLayerPosX - layerLeftBuffor - regionSizeX));
+
+            layerLeftBuffor += regionSizeX;
+        }
+
+        while(layerRightBuffor < screenSize) {
+            regionList.add(create(currentLayerPosX + layerRightBuffor));
+
+            System.out.println("addRegion 2 " + currentLayerPosX + " " + (currentLayerPosX + layerRightBuffor));
+
+            layerRightBuffor += regionSizeX;
+        }
+    }
+
+    private void removeRegion() {
+        Array<ParallaxaLayerRegion> removeList = new Array<ParallaxaLayerRegion>();
+        float rangeLeft = currentLayerPosX - screenSize;
+        float rangeRight = currentLayerPosX + screenSize;
+
+        for(int i=0; i< regionList.size; i++) {
+            ParallaxaLayerRegion tmpRegion = regionList.get(i);
+            float spriteLeftEdge = tmpRegion.getX();
+            float spriteRightEdge = spriteLeftEdge + tmpRegion.getWidth();
+            if(rangeLeft > spriteRightEdge) {
+                removeList.add(tmpRegion);
+
+                System.out.println("removeRegion 2");
+            } else if(rangeRight < spriteLeftEdge) {
+                removeList.add(tmpRegion);
+
+                System.out.println("removeRegion 1");
+            }
+        }
+        regionList.removeAll(removeList, true);
     }
 }

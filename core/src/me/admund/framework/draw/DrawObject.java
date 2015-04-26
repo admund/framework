@@ -1,5 +1,6 @@
 package me.admund.framework.draw;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import me.admund.framework.draw.holders.ISpriteHolder;
 import me.admund.framework.physics.PhysicsWorld;
@@ -50,4 +51,6 @@ public abstract class DrawObject extends Actor {
             spriteHolder.updateOrigin(getOriginX() * PhysicsWorld.BOX_TO_SCREEN, getOriginY() * PhysicsWorld.BOX_TO_SCREEN);
         }
     }
+
+    public abstract void draw(Batch batch, float parentAlpha);
 }
