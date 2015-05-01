@@ -10,7 +10,6 @@ import me.admund.framework.achievements.IAchievementsProvider;
 import me.admund.framework.scenes.IScene;
 import me.admund.framework.scenes.LoadingScene;
 import me.admund.framework.scenes.ScenesManager;
-import me.admund.framework.utils.FontUtils;
 
 /**
  * Created by admund on 2014-12-23.
@@ -62,7 +61,6 @@ public abstract class AbstractGame extends ApplicationAdapter {
         super.dispose();
         ScenesManager.inst().dispose();
         GameUtils.dispose();
-        FontUtils.dispose();
     }
 
     protected abstract IScene getFirstScene();
