@@ -24,8 +24,8 @@ public abstract class AbstractScene implements IScene {
 
     @Override
     public void resize (int width, int height) {
-        stage.getViewport().update(width, height, true);
-        guiStage.getViewport().update(width, height, true);
+        stage.getViewport().update(width, height, false);
+        guiStage.getViewport().update(width, height, false);
     }
 
     @Override
