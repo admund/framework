@@ -47,17 +47,18 @@ public class FrameworkTest extends AbstractGame {
 
 		@Override
 		public void create() {
+			createGroups(new String[]{"MAIN"});
 			world = new PhysicsWorld(new FrameworkTestReuseFactory());
 
 			PhysicsRect rect1 = (PhysicsRect)world.getPhysicsObject(PhysicsRect.class.toString());
 			rect1.init(35, 20);
-			stage.addActor(rect1);
+			addActor("MAIN", rect1);
 		}
 
 		@Override
 		public void draw(Batch batch) {
 			super.draw(batch);
-			world.debugRender(stage.getCamera());
+			world.debugRender(getCurrentCamera());
 		}
 	}
 
