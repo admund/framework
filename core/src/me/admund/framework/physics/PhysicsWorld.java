@@ -1,5 +1,6 @@
 package me.admund.framework.physics;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
@@ -14,8 +15,11 @@ public class PhysicsWorld implements Disposable {
     public static float SCREEN_TO_BOX = 0.1f;
     public static float BOX_TO_SCREEN = 10f;
 
-    public static float BOX_SCREEN_WIDTH = SCREEN_TO_BOX * GameConfig.GAME_WIDTH;
-    public static float BOX_SCREEN_HEIGHT = SCREEN_TO_BOX * GameConfig.GAME_HEIGHT;
+    public static float BOX_WORLD_WIDTH = SCREEN_TO_BOX * GameConfig.GAME_WIDTH;
+    public static float BOX_WORLD_HEIGHT = SCREEN_TO_BOX * GameConfig.GAME_HEIGHT;
+
+    public static float BOX_SCREEN_WIDTH = SCREEN_TO_BOX * Gdx.graphics.getWidth();
+    public static float BOX_SCREEN_HEIGHT = SCREEN_TO_BOX * Gdx.graphics.getHeight();
 
     private World world = null;
     private ReuseFactory factory = null;
