@@ -9,7 +9,12 @@ import me.admund.framework.draw.holders.SimpleSpriteHolder;
 public class SimpleDrawObject extends DrawObject {
 
     public SimpleDrawObject(String textureName) {
-        setSpriteHolder(new SimpleSpriteHolder(textureName));
+        setSpriteHolder(new SimpleSpriteHolder(textureName), true);
+    }
+
+    public SimpleDrawObject init(float posX, float posY) {
+        setPosition(posX, posY);
+        return this;
     }
 
     public SimpleDrawObject init(float posX, float posY, float width, float height) {

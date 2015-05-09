@@ -15,8 +15,12 @@ public abstract class DrawObject extends Actor {
         return spriteHolder != null;
     }
 
-    protected void setSpriteHolder(ISpriteHolder textureHolder) {
-        this.spriteHolder = textureHolder;
+    protected void setSpriteHolder(ISpriteHolder spriteHolder, boolean useSpriteSize) {
+        this.spriteHolder = spriteHolder;
+        if(useSpriteSize) {
+            setSize(spriteHolder.getSpriteWidth() * PhysicsWorld.SCREEN_TO_BOX,
+                    spriteHolder.getSpriteHeight() * PhysicsWorld.SCREEN_TO_BOX);
+        }
         updateSpriteHolder();
     }
 
