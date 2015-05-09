@@ -39,10 +39,6 @@ public abstract class FrameworkAssetsManager extends AssetManager {
         return music;
     }
 
-    public TextureRegion getTextureRegion(String fileName) {
-        return new TextureRegion(getTexture(fileName));
-    }
-
     public TextureRegion getTextureRegionFromMain(String fileName) {
         if(mainAtlas == null) throw new RuntimeException("FrameworkAssetsManager: Main Atlas not set");
         return getTextureRegion("Main", mainAtlas, fileName);

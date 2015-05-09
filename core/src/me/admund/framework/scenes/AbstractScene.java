@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import me.admund.framework.GameConfig;
+import me.admund.framework.physics.PhysicsWorld;
 
 /**
  * Created by admund on 2014-12-23.
@@ -22,7 +22,7 @@ public abstract class AbstractScene implements IScene {
     private ObjectMap<String, Group> groupList = null;
 
     public AbstractScene() {
-        stage = new Stage(new ExtendViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT));
+        stage = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         guiStage = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         groupList = new ObjectMap<String, Group>();
         setInputProcessor();
@@ -60,6 +60,8 @@ public abstract class AbstractScene implements IScene {
     public void resize (int width, int height) {
         stage.getViewport().update(width, height, false);
         guiStage.getViewport().update(width, height, false);
+        PhysicsWorld.BOX_SCREEN_WIDTH = stage.getWidth() * PhysicsWorld.SCREEN_TO_BOX;
+        PhysicsWorld.BOX_SCREEN_HEIGHT = stage.getHeight() * PhysicsWorld.SCREEN_TO_BOX;
     }
 
     @Override

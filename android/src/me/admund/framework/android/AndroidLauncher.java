@@ -17,6 +17,9 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.numSamples = 2;
+		config.hideStatusBar = true;
+		config.useAccelerometer = false;
+		config.useCompass = false;
 		provider = new AndroidAchivmentsProvider(this);
 		initialize(new FrameworkTest(provider), config);
 	}
