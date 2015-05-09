@@ -47,6 +47,10 @@ public class PhysicsWorld implements Disposable {
         prepereToReuseBodies();
     }
 
+    public int getBodyCount() {
+        return world.getBodyCount();
+    }
+
     public void debugRender(Camera cam) {
         debugRenderer.render(world, cam.combined.cpy().scl(BOX_TO_SCREEN));
     }

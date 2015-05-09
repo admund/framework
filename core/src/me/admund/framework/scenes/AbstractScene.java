@@ -52,6 +52,10 @@ public abstract class AbstractScene implements IScene {
         return group;
     }
 
+    public int getActorCount() {
+        return stage.getActors().size;
+    }
+
     @Override
     public void resize (int width, int height) {
         stage.getViewport().update(width, height, false);
