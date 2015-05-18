@@ -30,6 +30,8 @@ public abstract class AbstractGame extends ApplicationAdapter {
 
     @Override
     public void create () {
+        Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+
         load();
         ScenesManager.inst().push(getLoadingScene(), true);
         batch = new SpriteBatch();
@@ -37,18 +39,17 @@ public abstract class AbstractGame extends ApplicationAdapter {
 
     @Override
     public void render () {
-        Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        ScenesManager.inst().peek().act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
+        ScenesManager.inst().peek().act(Math.min(Gdx.graphics.getDeltaTime(), 1f/30f));
         ScenesManager.inst().peek().draw(batch);
 
         if(loadingAssets && GameUtils.assetsManager.update()) {
             loadingAssets = false;
             GameUtils.assetsManager.init();
-
             ScenesManager.inst().push(getFirstScene(), true);
         }
+        Gdx.gl.glFlush();
     }
 
     @Override
