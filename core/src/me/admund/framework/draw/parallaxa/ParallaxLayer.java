@@ -21,6 +21,7 @@ public abstract class ParallaxLayer {
     private float layerRightBuffor = 0;
 
     private Array<ParallaxaLayerRegion> regionList = null;
+    private Array<ParallaxaLayerRegion> removeList = null;
 
     public ParallaxLayer(float regionSizeX, float regionSizeY, float value) {
         this(regionSizeX, regionSizeY, 0, value);
@@ -34,6 +35,7 @@ public abstract class ParallaxLayer {
         this.screenSize = Gdx.graphics.getWidth() * PhysicsWorld.SCREEN_TO_BOX;
 
         this.regionList = new Array<ParallaxaLayerRegion>();
+        this.removeList = new Array<ParallaxaLayerRegion>();
     }
 
     public abstract ParallaxaLayerRegion create(float startPosX);
@@ -73,7 +75,7 @@ public abstract class ParallaxLayer {
     }
 
     private void removeRegion() {
-        Array<ParallaxaLayerRegion> removeList = new Array<ParallaxaLayerRegion>();
+        removeList.clear();
         float rangeLeft = currentLayerPosX - screenSize;
         float rangeRight = currentLayerPosX + screenSize;
 

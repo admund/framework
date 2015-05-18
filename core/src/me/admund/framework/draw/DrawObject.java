@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import me.admund.framework.draw.holders.ISpriteHolder;
 import me.admund.framework.physics.PhysicsWorld;
+import me.admund.framework.utils.UpdateType;
 
 /**
  * Created by admund on 2015-01-04.
@@ -21,7 +22,7 @@ public abstract class DrawObject extends Actor {
             setSize(spriteHolder.getSpriteWidth() * PhysicsWorld.SCREEN_TO_BOX,
                     spriteHolder.getSpriteHeight() * PhysicsWorld.SCREEN_TO_BOX);
         }
-        updateSpriteHolder();
+        updateSpriteHolder(UpdateType.ALL);
     }
 
     protected SpriteList getSpriteList() {
@@ -36,23 +37,45 @@ public abstract class DrawObject extends Actor {
         }
     }
 
+    @Override
     public void setSize(float width, float hight) {
         super.setSize(width, hight);
-        updateSpriteHolder();
+        updateSpriteHolder(UpdateType.SIZE);
     }
 
+    @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
-        updateSpriteHolder();
+        updateSpriteHolder(UpdateType.POSSITION);
     }
 
-    protected void updateSpriteHolder() {
+    @Override
+    public void setOrigin(int alignment) {
+        super.setOrigin(alignment);
+        updateSpriteHolder(UpdateType.ALL);
+    }
+
+    @Override
+    public void setScale(float scaleX, float scaleY) {
+        super.setScale(scaleX, scaleY);
+        updateSpriteHolder(UpdateType.ALL);
+    }
+
+    protected void updateSpriteHolder(UpdateType updateType) {
         if(spriteHolder != null) {
-            spriteHolder.updatePosition(getX() * PhysicsWorld.BOX_TO_SCREEN, getY() * PhysicsWorld.BOX_TO_SCREEN,
-                    getRotation());
-            spriteHolder.updateSize(getWidth() * PhysicsWorld.BOX_TO_SCREEN, getHeight() * PhysicsWorld.BOX_TO_SCREEN);
-            spriteHolder.updateScale(getScaleX(), getScaleY());
-            spriteHolder.updateOrigin(getOriginX() * PhysicsWorld.BOX_TO_SCREEN, getOriginY() * PhysicsWorld.BOX_TO_SCREEN);
+            if(updateType == UpdateType.ALL || updateType == UpdateType.POSSITION) {
+                spriteHolder.updatePosition(getX() * PhysicsWorld.BOX_TO_SCREEN, getY() * PhysicsWorld.BOX_TO_SCREEN,
+                        getRotation());
+            }
+            if(updateType == UpdateType.ALL || updateType == UpdateType.SIZE) {
+                spriteHolder.updateSize(getWidth() * PhysicsWorld.BOX_TO_SCREEN, getHeight() * PhysicsWorld.BOX_TO_SCREEN);
+            }
+            if(updateType == UpdateType.ALL) {
+                spriteHolder.updateScale(getScaleX(), getScaleY());
+            }
+            if(updateType == UpdateType.ALL) {
+                spriteHolder.updateOrigin(getOriginX() * PhysicsWorld.BOX_TO_SCREEN, getOriginY() * PhysicsWorld.BOX_TO_SCREEN);
+            }
         }
     }
 
