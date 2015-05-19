@@ -7,10 +7,12 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import me.admund.framework.FrameworkTest;
+import me.admund.framework.game.AbstractGame;
 
 public class AndroidLauncher extends AndroidApplication {
 
 	private AndroidAchivmentsProvider provider = null;
+	private AbstractGame game = null;
 
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
@@ -21,13 +23,20 @@ public class AndroidLauncher extends AndroidApplication {
 		config.useAccelerometer = false;
 		config.useCompass = false;
 		provider = new AndroidAchivmentsProvider(this);
-		initialize(new FrameworkTest(provider), config);
+		game = new FrameworkTest(provider);
+		initialize(game, config);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 		provider.onStart(this);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		game.pause();
 	}
 
 	@Override
