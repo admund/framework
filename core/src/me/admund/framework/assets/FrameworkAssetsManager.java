@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import me.admund.framework.GameUtils;
 
 /**
  * Created by admund on 2015-04-11.
@@ -17,6 +16,7 @@ public abstract class FrameworkAssetsManager extends AssetManager {
     protected TextureAtlas mainAtlas = null;
 
     public abstract void init();
+    public abstract void load();
 
     public BitmapFont getBitmapFont(String fontName) {
         BitmapFont font = get(fontName, BitmapFont.class);

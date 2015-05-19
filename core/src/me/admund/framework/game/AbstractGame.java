@@ -5,8 +5,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import me.admund.framework.GameUtils;
 import me.admund.framework.achievements.IAchievementsProvider;
+import me.admund.framework.assets.FrameworkAssetsManager;
 import me.admund.framework.scenes.IScene;
 import me.admund.framework.scenes.LoadingScene;
 import me.admund.framework.scenes.ScenesManager;
@@ -17,6 +19,8 @@ import me.admund.framework.scenes.ScenesManager;
 public abstract class AbstractGame extends ApplicationAdapter {
     private SpriteBatch batch = null;
     private boolean loadingAssets = true;
+    private boolean lastUpdate = true;
+    private LoadingScene loadingScane = null;
 
     protected Color clearColor = Color.BLACK;
 
@@ -26,14 +30,20 @@ public abstract class AbstractGame extends ApplicationAdapter {
         this.achievementsProvider = achievementsProvider;
     }
 
-    public abstract void load();
+    protected abstract FrameworkAssetsManager createAssetManager();
 
     @Override
     public void create () {
         Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 
-        load();
-        ScenesManager.inst().push(getLoadingScene(), true);
+        FrameworkAssetsManager assetsManager = createAssetManager();
+        assetsManager.load("loading.atlas", TextureAtlas.class);
+        assetsManager.finishLoading();
+
+        assetsManager.load();
+        GameUtils.assetsManager = assetsManager;
+
+        ScenesManager.inst().push(createLoadingScene(), true);
         batch = new SpriteBatch();
     }
 
@@ -44,10 +54,24 @@ public abstract class AbstractGame extends ApplicationAdapter {
         ScenesManager.inst().peek().act(Math.min(Gdx.graphics.getDeltaTime(), 1f/30f));
         ScenesManager.inst().peek().draw(batch);
 
-        if(loadingAssets && GameUtils.assetsManager.update()) {
-            loadingAssets = false;
-            GameUtils.assetsManager.init();
-            ScenesManager.inst().push(getFirstScene(), true);
+        if(loadingAssets) {
+            loadingScane.updateProgress();
+            if (GameUtils.assetsManager.update()) {
+                if (lastUpdate) {
+                    loadingScane.updateProgress();
+                    lastUpdate = false;
+                    GameUtils.assetsManager.init();
+                } else {
+                    loadingAssets = false;
+                    ScenesManager.inst().push(createFirstScene(), true);
+                }
+            } else {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         Gdx.gl.glFlush();
     }
@@ -64,8 +88,12 @@ public abstract class AbstractGame extends ApplicationAdapter {
         GameUtils.dispose();
     }
 
-    protected abstract IScene getFirstScene();
-    protected IScene getLoadingScene() {
-        return new LoadingScene();
+    protected abstract IScene createFirstScene();
+
+    protected IScene createLoadingScene() {
+        if(loadingScane == null) {
+            loadingScane = new LoadingScene();
+        }
+        return loadingScane;
     }
 }
