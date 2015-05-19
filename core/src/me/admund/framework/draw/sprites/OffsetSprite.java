@@ -25,11 +25,6 @@ public class OffsetSprite extends Sprite {
         this.offsetY = offsetY * PhysicsWorld.BOX_TO_SCREEN;
     }
 
-    @Override
-    public void setSize(float width, float height) {
-        // TODO cos tu trzeba podkombinowac
-    }
-
     public void initSize(float width, float height) {
         super.setSize(width * PhysicsWorld.BOX_TO_SCREEN, height * PhysicsWorld.BOX_TO_SCREEN);
     }
