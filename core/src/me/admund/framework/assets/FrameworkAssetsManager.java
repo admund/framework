@@ -5,6 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
@@ -61,6 +62,13 @@ public abstract class FrameworkAssetsManager extends AssetManager {
         if(atlas == null) throw new RuntimeException("FrameworkAssetsManager: Atlas named \""
                 + textureAtlasName + "\" not found");
         return getTextureRegions(textureAtlasName, atlas, fileName);
+    }
+
+    public ParticleEffect getParticleEffect(String particleName) {
+        ParticleEffect particleEffect = get(particleName, ParticleEffect.class);
+        if(particleEffect == null) throw new RuntimeException("FrameworkAssetsManager: ParticleEffect named \""
+                + particleName + "\" not found");
+        return particleEffect;
     }
 
     private Texture getTexture(String textureName) {

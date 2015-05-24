@@ -9,9 +9,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import me.admund.framework.GameUtils;
 import me.admund.framework.achievements.IAchievementsProvider;
 import me.admund.framework.assets.FrameworkAssetsManager;
+import me.admund.framework.draw.particle.FrameworkParticleManager;
 import me.admund.framework.scenes.IScene;
 import me.admund.framework.scenes.LoadingScene;
 import me.admund.framework.scenes.ScenesManager;
+import me.admund.framework.sounds.FrameworkSoundsManager;
 
 /**
  * Created by admund on 2014-12-23.
@@ -31,17 +33,14 @@ public abstract class AbstractGame extends ApplicationAdapter {
     }
 
     protected abstract FrameworkAssetsManager createAssetManager();
+    protected abstract FrameworkSoundsManager createSoundsManager();
+    protected abstract FrameworkParticleManager createParticleManager();
 
     @Override
     public void create () {
         Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 
-        FrameworkAssetsManager assetsManager = createAssetManager();
-        assetsManager.load("loading.atlas", TextureAtlas.class);
-        assetsManager.finishLoading();
-
-        assetsManager.load();
-        GameUtils.assetsManager = assetsManager;
+        prinitAssetManager();
 
         ScenesManager.inst().push(createLoadingScene(), true);
         batch = new SpriteBatch();
@@ -60,7 +59,10 @@ public abstract class AbstractGame extends ApplicationAdapter {
                 if (lastUpdate) {
                     loadingScane.updateProgress();
                     lastUpdate = false;
+
                     GameUtils.assetsManager.init();
+                    initSoundManager();
+                    initParticleManager();
                 } else {
                     loadingAssets = false;
                     ScenesManager.inst().push(createFirstScene(), true);
@@ -95,5 +97,24 @@ public abstract class AbstractGame extends ApplicationAdapter {
             loadingScane = new LoadingScene();
         }
         return loadingScane;
+    }
+
+    private void prinitAssetManager() {
+        FrameworkAssetsManager assetsManager = createAssetManager();
+        assetsManager.load("loading.atlas", TextureAtlas.class);
+        assetsManager.finishLoading();
+
+        assetsManager.load();
+        GameUtils.assetsManager = assetsManager;
+    }
+
+    private void initSoundManager() {
+        GameUtils.soundsManager = createSoundsManager();
+        GameUtils.soundsManager.init();
+    }
+
+    private void initParticleManager() {
+        GameUtils.particleManager = createParticleManager();
+        GameUtils.particleManager.init();
     }
 }

@@ -12,11 +12,13 @@ import me.admund.framework.achievements.IAchievementsProvider;
 import me.admund.framework.assets.FrameworkAssetsManager;
 import me.admund.framework.draw.DrawUtils;
 import me.admund.framework.draw.SpriteList;
+import me.admund.framework.draw.particle.FrameworkParticleManager;
 import me.admund.framework.game.AbstractGame;
 import me.admund.framework.physics.*;
 import me.admund.framework.scenes.AbstractScene;
 import me.admund.framework.scenes.IScene;
 import me.admund.framework.scenes.ScenesManager;
+import me.admund.framework.sounds.FrameworkSoundsManager;
 
 public class FrameworkTest extends AbstractGame {
 
@@ -26,7 +28,28 @@ public class FrameworkTest extends AbstractGame {
 
 	@Override
 	protected FrameworkAssetsManager createAssetManager() {
-		return null;
+		return new FrameworkAssetsManager() {
+			@Override
+			public void init() {}
+			@Override
+			public void load() {}
+		};
+	}
+
+	@Override
+	protected FrameworkSoundsManager createSoundsManager() {
+		return new FrameworkSoundsManager() {
+			@Override
+			public void init() {}
+		};
+	}
+
+	@Override
+	protected FrameworkParticleManager createParticleManager() {
+		return new FrameworkParticleManager() {
+			@Override
+			public void init() {}
+		};
 	}
 
 	@Override
