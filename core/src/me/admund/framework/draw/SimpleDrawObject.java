@@ -22,11 +22,4 @@ public class SimpleDrawObject extends DrawObject {
         setSize(width, height);
         return this;
     }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        if(isVisible()) {
-            DrawUtils.draw(batch, getSpriteList());
-        }
-    }
 }
