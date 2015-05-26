@@ -50,4 +50,9 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onActivityResult(requestCode, resultCode, data);
 		provider.onActivityResult(requestCode, resultCode, data);
 	}
+
+	@Override
+	public void onBackPressed() {
+        game.pause();
+	}
 }
