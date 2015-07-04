@@ -55,7 +55,7 @@ public abstract class AbstractSpriteHolder implements ISpriteHolder {
     @Override
     public float getSpriteWidth() {
         if(spriteList.size > 0) {
-            return spriteList.get(0).getWidth();
+            return spriteList.get(0).getRegionWidth();
         }
         return 0;
     }
@@ -63,7 +63,7 @@ public abstract class AbstractSpriteHolder implements ISpriteHolder {
     @Override
     public float getSpriteHeight() {
         if(spriteList.size > 0) {
-            return spriteList.get(0).getHeight();
+            return spriteList.get(0).getRegionHeight();
         }
         return 0;
     }

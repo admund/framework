@@ -81,7 +81,7 @@ public abstract class DrawObject extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        if(isVisible()) {
+        if(isVisible() && isSpriteHolder()) {
             DrawUtils.draw(batch, getSpriteList());
         }
     }

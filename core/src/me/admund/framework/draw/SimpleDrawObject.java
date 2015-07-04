@@ -1,6 +1,5 @@
 package me.admund.framework.draw;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import me.admund.framework.draw.holders.SimpleSpriteHolder;
 
 /**
