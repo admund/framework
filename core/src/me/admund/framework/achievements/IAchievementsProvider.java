@@ -9,6 +9,8 @@ public interface IAchievementsProvider {
     void signIn();
     void signOut();
     void rateGame();
+    void showLeaderboard();
+    void showAchievements();
     boolean submitScore(int score);
     boolean earnAchievement(String achivmentId);
     boolean incrementAchievement(String achivmentId, int incrementValue);

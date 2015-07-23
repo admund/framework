@@ -5,16 +5,18 @@ package me.admund.framework.utils;
  */
 public class TimeBoolean {
     private static float DELAY_TIME = 3f;
+    private float maxDelayTime = 0;
     private float delayTime = 0;
     private boolean value = false;
 
     public TimeBoolean(boolean value) {
         this.value = value;
+        this.maxDelayTime = DELAY_TIME;
     }
 
     public TimeBoolean(boolean value, float delayTime) {
         this(value);
-        this.DELAY_TIME = delayTime;
+        this.maxDelayTime = delayTime;
     }
 
     public void act(float deltaTime) {
@@ -29,8 +31,12 @@ public class TimeBoolean {
 
     public void change() {
         if(delayTime == 0f) {
-            delayTime = DELAY_TIME;
+            delayTime = maxDelayTime;
         }
+    }
+
+    public void forceChange() {
+        delayTime = maxDelayTime;
     }
 
     public boolean getValue() {

@@ -30,6 +30,12 @@ public class DesktopAchievementsProvider implements IAchievementsProvider {
     public void rateGame() {}
 
     @Override
+    public void showLeaderboard() {}
+
+    @Override
+    public void showAchievements() {}
+
+    @Override
     public boolean submitScore(int score) {
         if(api.isVerified()) {
             return api.addHighscore(score + " pts", score);
