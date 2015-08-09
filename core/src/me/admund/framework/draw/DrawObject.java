@@ -85,4 +85,21 @@ public abstract class DrawObject extends Actor {
             DrawUtils.draw(batch, getSpriteList());
         }
     }
+
+    public float getScreenWidth() {
+        return getWidth() * PhysicsWorld.BOX_TO_SCREEN;
+    }
+
+    public float getScreenHeight() {
+        return getHeight() * PhysicsWorld.BOX_TO_SCREEN;
+    }
+
+    public float getScreenPosX() {
+        return getX() * PhysicsWorld.BOX_TO_SCREEN;
+    }
+
+    public float getScreenPosY() {
+        return getY() * PhysicsWorld.BOX_TO_SCREEN;
+    }
+
 }
