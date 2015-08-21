@@ -7,18 +7,23 @@ import com.badlogic.gdx.utils.Align;
 import me.admund.framework.draw.DrawObject;
 import me.admund.framework.utils.UpdateType;
 
+import static com.badlogic.gdx.utils.Align.*;
+
 /**
  * Created by admund on 2014-12-23.
  */
 public abstract class PhysicsObject extends DrawObject implements IPhysicsObject {
     private static final Vector2 ZERO = new Vector2(0, 0);
 
+    protected Fixture fixture = null;
+    protected Body body = null;
+    protected boolean hasPhysicModel = false;
+
+    private Aligment aligment = Aligment.CENTER;
     private PhysicsObjectInfo info = null;
     private boolean canReuse = true;
     private PhysicsWorld world = null;
-    protected Fixture fixture = null;
-    protected Body body = null;
-    private int aligment = Align.center;
+
 
     public PhysicsObject(AType type) {
         info = new PhysicsObjectInfo().setType(type).setObj(this);
@@ -116,7 +121,7 @@ public abstract class PhysicsObject extends DrawObject implements IPhysicsObject
         setCurrentPos(pos.x, pos.y, rotation);
     }
 
-    public void setAligment(int aligment) {
+    public void setAligment(Aligment aligment) {
         this.aligment = aligment;
     }
 
@@ -125,7 +130,7 @@ public abstract class PhysicsObject extends DrawObject implements IPhysicsObject
     }
 
     protected void setCurrentPos(float x, float y, float rotation) {
-        super.setPosition(x, y, aligment);
+        setPosition(x, y, aligment);
         body.setTransform(x, y, rotation);
         updateSpriteHolder(UpdateType.POSSITION);
     }
@@ -133,20 +138,26 @@ public abstract class PhysicsObject extends DrawObject implements IPhysicsObject
     // SIZE
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        PhysicsUtils.updateRectShape(getShape(), width * .5f, height * .5f);
-        updateSpriteHolder(UpdateType.SIZE);
+        if(!hasPhysicModel) {
+            PhysicsUtils.updateRectShape(getShape(), width * .5f, height * .5f);
+            updateSpriteHolder(UpdateType.SIZE);
+        }
     }
 
     public void setSize(float width, float height, Vector2[] verticles) {
         super.setSize(width, height);
-        PhysicsUtils.updateRectShape(getShape(), verticles);
-        updateSpriteHolder(UpdateType.SIZE);
+        if(!hasPhysicModel) {
+            PhysicsUtils.updateRectShape(getShape(), verticles);
+            updateSpriteHolder(UpdateType.SIZE);
+        }
     }
 
     public void setSize(float radius) {
         super.setSize(radius * 2, radius * 2);
-        PhysicsUtils.updateCircleShape(getShape(), radius);
-        updateSpriteHolder(UpdateType.SIZE);
+        if(!hasPhysicModel) {
+            PhysicsUtils.updateCircleShape(getShape(), radius);
+            updateSpriteHolder(UpdateType.SIZE);
+        }
     }
 
     @Override
@@ -170,5 +181,16 @@ public abstract class PhysicsObject extends DrawObject implements IPhysicsObject
 
     protected void destoryJoint(Joint joint) {
         world.destroyJoint(joint);
+    }
+
+    private void setPosition (float x, float y, Aligment alignment) {
+        x -= getWidth() * alignment.getAligmentX();
+        y -= getHeight() * alignment.getAligmentY();
+
+        if (getX() != x || getY() != y) {
+            setX(x);
+            setY(y);
+            positionChanged();
+        }
     }
 }

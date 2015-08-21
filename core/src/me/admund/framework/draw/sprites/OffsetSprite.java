@@ -11,8 +11,13 @@ public class OffsetSprite extends Sprite {
     private float offsetX = 0;
     private float offsetY = 0;
 
-    public OffsetSprite(TextureRegion texture) {
+    public OffsetSprite(TextureRegion texture, float offsetX, float offsetY) {
         super(texture);
+        setOffset(offsetX, offsetY);
+    }
+
+    public OffsetSprite(TextureRegion texture) {
+        this(texture, 0f, 0f);
     }
 
     @Override
@@ -23,9 +28,5 @@ public class OffsetSprite extends Sprite {
     public void setOffset(float offsetX, float offsetY) {
         this.offsetX = offsetX * PhysicsWorld.BOX_TO_SCREEN;
         this.offsetY = offsetY * PhysicsWorld.BOX_TO_SCREEN;
-    }
-
-    public void initSize(float width, float height) {
-        super.setSize(width * PhysicsWorld.BOX_TO_SCREEN, height * PhysicsWorld.BOX_TO_SCREEN);
     }
 }

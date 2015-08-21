@@ -6,10 +6,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.OrderedMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -177,15 +175,11 @@ public class BodyEditorLoader {
 
     private Model readJson(String str) {
         Model m = new Model();
-        //OrderedMap<String,?> rootElem = (OrderedMap<String,?>) new JsonReader().parse(str);
         JsonValue rootElem = new JsonReader().parse(str);
 
-        //Array<?> bodiesElems = (Array<?>) rootElem.get("rigidBodies");
         JsonValue bodiesElems = rootElem.get("rigidBodies");
-
         for (int i=0; i<bodiesElems.size; i++) {
-            //OrderedMap<String,?> bodyElem = (OrderedMap<String,?>) bodiesElems.get(i)
-            JsonValue bodyElem = new JsonReader().parse(str);
+            JsonValue bodyElem = bodiesElems.get(i);
             RigidBodyModel rbModel = readRigidBody(bodyElem);
             m.rigidBodies.put(rbModel.name, rbModel);
         }
@@ -193,11 +187,10 @@ public class BodyEditorLoader {
         return m;
     }
 
-    //private RigidBodyModel readRigidBody(OrderedMap<String,?> bodyElem) {
     private RigidBodyModel readRigidBody(JsonValue bodyElem) {
         RigidBodyModel rbModel = new RigidBodyModel();
-        rbModel.name = bodyElem.getString("name");
-        rbModel.imagePath = bodyElem.getString("imagePath");
+        rbModel.name = null;//bodyElem.getString("name", null); // TODO moze sie przydac kiedys
+        rbModel.imagePath = bodyElem.getString("imagePath", null);
 
         JsonValue originElem = bodyElem.get("origin");
         rbModel.origin.x = originElem.getFloat("x");

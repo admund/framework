@@ -56,6 +56,12 @@ public abstract class DrawObject extends Actor {
     }
 
     @Override
+    public void setOrigin(float originX, float originY) {
+        super.setOrigin(originX, originY);
+        updateSpriteHolder(UpdateType.ALL);
+    }
+
+    @Override
     public void setScale(float scaleX, float scaleY) {
         super.setScale(scaleX, scaleY);
         updateSpriteHolder(UpdateType.ALL);
