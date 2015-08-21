@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.GameHelper;
 import me.admund.babydrop.android.R;
+import me.admund.framework.achievements.AchievementState;
 import me.admund.framework.achievements.IAchievementsProvider;
 
 /**
@@ -14,7 +16,6 @@ import me.admund.framework.achievements.IAchievementsProvider;
  */
 public class AndroidAchivmentsProvider implements IAchievementsProvider,
                                             GameHelper.GameHelperListener {
-
     private Activity activity = null;
     private GameHelper gameHelper = null;
 
@@ -67,19 +68,51 @@ public class AndroidAchivmentsProvider implements IAchievementsProvider,
 
     @Override
     public void rateGame() {
-        // Replace the end of the URL with the package of your game
-        String str ="https://play.google.com/store/apps/details?id=";//TODO
+        String str ="https://play.google.com/store/apps/details?id=" + activity.getPackageName();
         activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(str)));
     }
 
     @Override
+    public void showLeaderboard() {
+        Intent intent = Games.Leaderboards.getAllLeaderboardsIntent(gameHelper.getApiClient());
+        activity.startActivityForResult(intent, 1);
+    }
+
+    @Override
+    public void showAchievements() {
+        Intent intent = Games.Achievements.getAchievementsIntent(gameHelper.getApiClient());
+        activity.startActivityForResult(intent, 1);
+    }
+
+    @Override
     public boolean submitScore(int score) {
-        if (isSignedIn() == true) {
+        if (isSignedIn()) {
             Games.Leaderboards.submitScore(gameHelper.getApiClient(), activity.getString(R.string.leaderboard_id), score);
-            activity.startActivityForResult(Games.Leaderboards.getLeaderboardIntent(gameHelper.getApiClient(), activity.getString(R.string.leaderboard_id)), 0);
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean earnAchievement(String achivmentId) {
+        if(isSignedIn()) {
+            Games.Achievements.unlock(gameHelper.getApiClient(), achivmentId);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean incrementAchievement(String achivmentId, int incrementValue) {
+        if(isSignedIn()) {
+            Games.Achievements.increment(gameHelper.getApiClient(), achivmentId, incrementValue);
+        }
+        return false;
+    }
+
+    @Override
+    public Array<AchievementState> getAchievementsStates() {
+        //return Games.Achievements.load(gameHelper.getApiClient(), true);
+        return new Array<AchievementState>(); // TODO
     }
 
     @Override
@@ -91,12 +124,8 @@ public class AndroidAchivmentsProvider implements IAchievementsProvider,
     }
 
     @Override
-    public void onSignInFailed() {
-
-    }
+    public void onSignInFailed() {}
 
     @Override
-    public void onSignInSucceeded() {
-
-    }
+    public void onSignInSucceeded() {}
 }

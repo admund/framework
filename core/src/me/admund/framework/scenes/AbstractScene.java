@@ -4,28 +4,64 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import me.admund.framework.GameConfig;
+import com.badlogic.gdx.utils.ObjectMap;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import me.admund.framework.physics.PhysicsWorld;
 
 /**
  * Created by admund on 2014-12-23.
  */
 public abstract class AbstractScene implements IScene {
-    protected Stage stage = null;
+    private Stage stage = null;
     protected Stage guiStage = null;
     //protected IGamepadMenuElement firstElement = null; TODO
 
+    private ObjectMap<String, Group> groupList = null;
+
     public AbstractScene() {
-        stage = new Stage(new StretchViewport(GameConfig.GAME_WIDTH, GameConfig.GAME_HEIGHT));
-        guiStage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        stage = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        guiStage = new Stage(new ExtendViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        groupList = new ObjectMap<String, Group>();
         setInputProcessor();
+    }
+
+    public void createGroups(String[] groupNames) {
+        for(int i=0; i<groupNames.length; i++) {
+            Group group = new Group();
+            groupList.put(groupNames[i], group);
+            stage.addActor(group);
+        }
+    }
+
+    public void addActor(String groupName, Actor actor) {
+        Group group = groupList.get(groupName);
+        if(group == null) {
+            throw new RuntimeException("AbstractScene: Can't find group named " + groupName);
+        }
+        group.addActor(actor);
+    }
+
+    public Group getGroup(String groupName) {
+        Group group = groupList.get(groupName);
+        if(group == null) {
+            throw new RuntimeException("AbstractScene: Can't find group named " + groupName);
+        }
+        return group;
+    }
+
+    public int getActorCount() {
+        return stage.getActors().size;
     }
 
     @Override
     public void resize (int width, int height) {
-        stage.getViewport().update(width, height, true);
-        guiStage.getViewport().update(width, height, true);
+        stage.getViewport().update(width, height, false);
+        guiStage.getViewport().update(width, height, false);
+        PhysicsWorld.BOX_SCREEN_WIDTH = stage.getWidth() * PhysicsWorld.SCREEN_TO_BOX;
+        PhysicsWorld.BOX_SCREEN_HEIGHT = stage.getHeight() * PhysicsWorld.SCREEN_TO_BOX;
     }
 
     @Override
@@ -61,4 +97,12 @@ public abstract class AbstractScene implements IScene {
         input.addProcessor(stage);
         Gdx.input.setInputProcessor(input);
     }
+
+//    private long time = 0;
+//    private void startLog() {
+//        time = System.currentTimeMillis();
+//    }
+//    private void printLog(String str) {
+//        System.out.println((System.currentTimeMillis() - time) + " " + str);
+//    }
 }

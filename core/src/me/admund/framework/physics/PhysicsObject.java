@@ -3,24 +3,27 @@ package me.admund.framework.physics;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
-import me.admund.framework.draw.SpriteList;
-import me.admund.framework.draw.holders.ISpriteHolder;
+import com.badlogic.gdx.utils.Align;
+import me.admund.framework.draw.DrawObject;
+import me.admund.framework.utils.UpdateType;
+
+import static com.badlogic.gdx.utils.Align.*;
 
 /**
  * Created by admund on 2014-12-23.
  */
-public abstract class PhysicsObject extends Actor implements IPhysicsObject {
+public abstract class PhysicsObject extends DrawObject implements IPhysicsObject {
     private static final Vector2 ZERO = new Vector2(0, 0);
 
+    protected Fixture fixture = null;
+    protected Body body = null;
+    protected boolean hasPhysicModel = false;
+
+    private Aligment aligment = Aligment.CENTER;
     private PhysicsObjectInfo info = null;
     private boolean canReuse = true;
     private PhysicsWorld world = null;
-    protected Fixture fixture = null;
-    protected Body body = null;
-    private ISpriteHolder spriteHolder = null;
-    private int aligment = Align.center;
+
 
     public PhysicsObject(AType type) {
         info = new PhysicsObjectInfo().setType(type).setObj(this);
@@ -89,6 +92,7 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         super.act(delta);
         updatePossition();
         updateRotation();
+        if(isSpriteHolder()) spriteHolder.act(delta);
     }
 
     public void setActive(boolean isActive) {
@@ -101,7 +105,7 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
 
     private void updatePossition() {
         setPosition(getPosition().x, getPosition().y, aligment);
-        updateSpriteHolder();
+        updateSpriteHolder(UpdateType.POSSITION);
     }
 
     private void updateRotation() {
@@ -117,7 +121,7 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         setCurrentPos(pos.x, pos.y, rotation);
     }
 
-    public void setAligment(int aligment) {
+    public void setAligment(Aligment aligment) {
         this.aligment = aligment;
     }
 
@@ -126,28 +130,34 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
     }
 
     protected void setCurrentPos(float x, float y, float rotation) {
-        super.setPosition(x, y, aligment);
+        setPosition(x, y, aligment);
         body.setTransform(x, y, rotation);
-        updateSpriteHolder();
+        updateSpriteHolder(UpdateType.POSSITION);
     }
 
     // SIZE
     public void setSize(float width, float height) {
         super.setSize(width, height);
-        PhysicsUtils.updateRectShape(getShape(), width * .5f, height * .5f);
-        updateSpriteHolder();
+        if(!hasPhysicModel) {
+            PhysicsUtils.updateRectShape(getShape(), width * .5f, height * .5f);
+            updateSpriteHolder(UpdateType.SIZE);
+        }
     }
 
     public void setSize(float width, float height, Vector2[] verticles) {
         super.setSize(width, height);
-        PhysicsUtils.updateRectShape(getShape(), verticles);
-        updateSpriteHolder();
+        if(!hasPhysicModel) {
+            PhysicsUtils.updateRectShape(getShape(), verticles);
+            updateSpriteHolder(UpdateType.SIZE);
+        }
     }
 
     public void setSize(float radius) {
         super.setSize(radius * 2, radius * 2);
-        PhysicsUtils.updateCircleShape(getShape(), radius);
-        updateSpriteHolder();
+        if(!hasPhysicModel) {
+            PhysicsUtils.updateCircleShape(getShape(), radius);
+            updateSpriteHolder(UpdateType.SIZE);
+        }
     }
 
     @Override
@@ -173,26 +183,14 @@ public abstract class PhysicsObject extends Actor implements IPhysicsObject {
         world.destroyJoint(joint);
     }
 
-    protected boolean hasSpriteHolder() {
-        return spriteHolder != null;
-    }
+    private void setPosition (float x, float y, Aligment alignment) {
+        x -= getWidth() * alignment.getAligmentX();
+        y -= getHeight() * alignment.getAligmentY();
 
-    protected void setSpriteHolder(ISpriteHolder spriteHolder) {
-        this.spriteHolder = spriteHolder;
-        updateSpriteHolder();
-    }
-
-    protected SpriteList getSpriteList() {
-        return spriteHolder.getSpriteList();
-    }
-
-    protected void updateSpriteHolder() {
-        if(spriteHolder != null) {
-            spriteHolder.updatePosition(getX() * PhysicsWorld.BOX_TO_SCREEN, getY() * PhysicsWorld.BOX_TO_SCREEN,
-                    getRotation());
-            spriteHolder.updateSize(getWidth() * PhysicsWorld.BOX_TO_SCREEN, getHeight() * PhysicsWorld.BOX_TO_SCREEN);
-            spriteHolder.updateScale(getScaleX(), getScaleY());
-            spriteHolder.updateOrigin(getOriginX() * PhysicsWorld.BOX_TO_SCREEN, getOriginY() * PhysicsWorld.BOX_TO_SCREEN);
+        if (getX() != x || getY() != y) {
+            setX(x);
+            setY(y);
+            positionChanged();
         }
     }
 }

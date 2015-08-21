@@ -1,6 +1,14 @@
 android {
-    buildToolsVersion "21.1.2"
-    compileSdkVersion 21
+    signingConfigs {
+        adm_game {
+            keyAlias 'adm_game'
+            keyPassword '33GAME33kilO##'
+            storeFile file('../../wazne/adm_release_key.keystore')
+            storePassword '33GAME33kilO##'
+        }
+    }
+    buildToolsVersion "20.0.0"
+    compileSdkVersion 20
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -12,6 +20,11 @@ android {
         }
 
         instrumentTest.setRoot('tests')
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.adm_game
+        }
     }
 }
 // needed to add JNI shared libraries to APK when compiling on CLI

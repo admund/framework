@@ -3,7 +3,7 @@ package me.admund.framework.physics.objects;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
+import com.badlogic.gdx.utils.Align;
 import me.admund.framework.physics.NoneType;
 import me.admund.framework.physics.PhysicsObject;
 import me.admund.framework.physics.PhysicsUtils;
@@ -41,12 +41,8 @@ public class PhysicsRect extends PhysicsObject {
     }
 
     @Override
-    public void beginContact(Contact contact, boolean isObjectA) {
-
-    }
+    public void beginContact(Contact contact, boolean isObjectA) {}
 
     @Override
-    public void endContact(Contact contact, boolean isObjectA) {
-
-    }
+    public void endContact(Contact contact, boolean isObjectA) {}
 }

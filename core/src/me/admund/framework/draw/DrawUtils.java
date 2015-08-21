@@ -1,44 +1,35 @@
 package me.admund.framework.draw;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import me.admund.framework.physics.PhysicsWorld;
+import me.admund.framework.GameUtils;
 
 /**
  * Created by admund on 2014-12-23.
  */
 public class DrawUtils {
 
-//    public static void drawActor(Batch batch, Texture texture, Actor actor) {
-//        drawActor(batch, texture, actor, false, false);
-//    }
-//
-//    public static void drawActor(Batch batch, Texture texture, Actor actor, boolean flipX, boolean flipY) {
-//        batch.draw(texture,
-//                (actor.getX() - actor.getOriginX()) * PhysicsWorld.BOX_TO_SCREEN,
-//                (actor.getY() - actor.getOriginY()) * PhysicsWorld.BOX_TO_SCREEN,
-//                actor.getOriginX() * PhysicsWorld.BOX_TO_SCREEN,
-//                actor.getOriginY() * PhysicsWorld.BOX_TO_SCREEN,
-//                actor.getWidth() * PhysicsWorld.BOX_TO_SCREEN,
-//                actor.getHeight() * PhysicsWorld.BOX_TO_SCREEN,
-//                actor.getScaleX(),
-//                actor.getScaleY(),
-//                actor.getRotation(),
-//                0, 0, texture.getWidth(), texture.getHeight(),
-//                flipX, flipY);
-//    }
-
     public static void draw(Batch batch, SpriteList spriteList) {
+        draw(batch, spriteList, false);
+    }
+
+    public static void draw(Batch batch, SpriteList spriteList, boolean alwaysVisible) {
         for(int i=0; i<spriteList.size; i++) {
             Sprite tmp = spriteList.get(i);
-            tmp.draw(batch);
+            if(alwaysVisible || isVisible(tmp)) {
+                tmp.draw(batch);
+            }
         }
     }
 
-    public static Texture getRandTextureFromTab(String[] stringTab) {
-        return TextureRepo.inst().getTexture(stringTab[MathUtils.random(stringTab.length - 1)]);
+    public static TextureRegion getRandTextureFromTab(String[] stringTab) {
+        return GameUtils.assetsManager.getTextureRegionFromMain(stringTab[MathUtils.random(stringTab.length - 1)]);
+    }
+
+    private static boolean isVisible(Sprite sprite) {
+        return GameUtils.currentCamera.frustum.boundsInFrustum(sprite.getX(), sprite.getY(), 0,
+                sprite.getWidth(), sprite.getHeight(), 0);
     }
 }

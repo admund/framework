@@ -5,16 +5,24 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import me.admund.framework.GameUtils;
 import me.admund.framework.achievements.IAchievementsProvider;
-import me.admund.framework.draw.TextureRepo;
+import me.admund.framework.assets.FrameworkAssetsManager;
+import me.admund.framework.draw.particle.FrameworkParticleManager;
+import me.admund.framework.scenes.IScene;
+import me.admund.framework.scenes.LoadingScene;
 import me.admund.framework.scenes.ScenesManager;
-import me.admund.framework.utils.FontUtils;
+import me.admund.framework.sounds.FrameworkSoundsManager;
 
 /**
  * Created by admund on 2014-12-23.
  */
 public abstract class AbstractGame extends ApplicationAdapter {
     private SpriteBatch batch = null;
+    private boolean loadingAssets = true;
+    private boolean lastUpdate = true;
+    private LoadingScene loadingScane = null;
 
     protected Color clearColor = Color.BLACK;
 
@@ -24,18 +32,50 @@ public abstract class AbstractGame extends ApplicationAdapter {
         this.achievementsProvider = achievementsProvider;
     }
 
+    protected abstract FrameworkAssetsManager createAssetManager();
+    protected abstract FrameworkSoundsManager createSoundsManager();
+    protected abstract FrameworkParticleManager createParticleManager();
+
     @Override
     public void create () {
+        Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+
+        prinitAssetManager();
+
+        ScenesManager.inst().push(createLoadingScene(), true);
         batch = new SpriteBatch();
     }
 
     @Override
     public void render () {
-        Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        ScenesManager.inst().peek().act(Math.min(Gdx.graphics.getDeltaTime(), 1/30f));
+        ScenesManager.inst().peek().act(Math.min(Gdx.graphics.getDeltaTime(), 1f/30f));
         ScenesManager.inst().peek().draw(batch);
+
+        if(loadingAssets) {
+            loadingScane.updateProgress();
+            if (GameUtils.assetsManager.update()) {
+                if (lastUpdate) {
+                    loadingScane.updateProgress();
+                    lastUpdate = false;
+
+                    GameUtils.assetsManager.init();
+                    initSoundManager();
+                    initParticleManager();
+                } else {
+                    loadingAssets = false;
+                    ScenesManager.inst().push(createFirstScene(), true);
+                }
+            } else {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        Gdx.gl.glFlush();
     }
 
     @Override
@@ -47,7 +87,34 @@ public abstract class AbstractGame extends ApplicationAdapter {
     public void dispose() {
         super.dispose();
         ScenesManager.inst().dispose();
-        TextureRepo.inst().dispose();
-        FontUtils.dispose();
+        GameUtils.dispose();
+    }
+
+    protected abstract IScene createFirstScene();
+
+    protected IScene createLoadingScene() {
+        if(loadingScane == null) {
+            loadingScane = new LoadingScene();
+        }
+        return loadingScane;
+    }
+
+    private void prinitAssetManager() {
+        FrameworkAssetsManager assetsManager = createAssetManager();
+        assetsManager.load("loading.atlas", TextureAtlas.class);
+        assetsManager.finishLoading();
+
+        assetsManager.load();
+        GameUtils.assetsManager = assetsManager;
+    }
+
+    private void initSoundManager() {
+        GameUtils.soundsManager = createSoundsManager();
+        GameUtils.soundsManager.init();
+    }
+
+    private void initParticleManager() {
+        GameUtils.particleManager = createParticleManager();
+        GameUtils.particleManager.init();
     }
 }
