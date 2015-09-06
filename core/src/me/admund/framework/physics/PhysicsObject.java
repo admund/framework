@@ -21,8 +21,8 @@ public abstract class PhysicsObject extends DrawObject implements IPhysicsObject
     private boolean canReuse = true;
     private PhysicsWorld world = null;
 
-    public PhysicsObject(AType type) {
-        info = new PhysicsObjectInfo().setType(type).setObj(this);
+    public PhysicsObject() {
+        info = new PhysicsObjectInfo().setObj(this);
     }
 
     public void create(PhysicsWorld world) {
@@ -93,10 +93,6 @@ public abstract class PhysicsObject extends DrawObject implements IPhysicsObject
 
     public void setActive(boolean isActive) {
         body.setActive(isActive);
-    }
-
-    public AType getType() {
-        return info.getType();
     }
 
     private void updatePossition() {

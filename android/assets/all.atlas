@@ -1,0 +1,13 @@
+
+all.png
+size: 82,54
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+mr_potato
+  rotate: false
+  xy: 2, 2
+  size: 80, 52
+  orig: 80, 52
+  offset: 0, 0
+  index: -1

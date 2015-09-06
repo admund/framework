@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Align;
-import me.admund.framework.physics.NoneType;
 import me.admund.framework.physics.PhysicsObject;
 import me.admund.framework.physics.PhysicsUtils;
 
@@ -12,10 +11,6 @@ import me.admund.framework.physics.PhysicsUtils;
  * Created by admund on 2015-01-06.
  */
 public class PhysicsRect extends PhysicsObject {
-
-    public PhysicsRect() {
-        super(new NoneType(true));
-    }
 
     @Override
     public BodyDef getBodyDef() {

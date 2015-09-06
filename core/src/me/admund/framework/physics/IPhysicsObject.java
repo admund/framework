@@ -8,8 +8,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
  * Created by admund on 2014-12-23.
  */
 public interface IPhysicsObject {
-    public PhysicsObjectInfo getInfo();
-    public BodyDef getBodyDef();
-    public FixtureDef getFixtureDef();
-    public void setFixture(Fixture fixture);
+    PhysicsObjectInfo getInfo();
+    BodyDef getBodyDef();
+    FixtureDef getFixtureDef();
+    void setFixture(Fixture fixture);
 }

@@ -9,10 +9,6 @@ import me.admund.framework.draw.model.BodyEditorLoader;
  */
 public abstract class ModelPhysicsObject extends PhysicsObject {
 
-    public ModelPhysicsObject(AType type) {
-        super(type);
-    }
-
     protected void loadModel(String modelName) {
         getBody().destroyFixture(this.getBody().getFixtureList().first());
         BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal(modelName));

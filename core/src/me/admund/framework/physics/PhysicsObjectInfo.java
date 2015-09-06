@@ -5,19 +5,9 @@ package me.admund.framework.physics;
  */
 public class PhysicsObjectInfo {
     private PhysicsObject obj = null;
-    private AType type = null;
     private boolean toReuse = false;
 
     public PhysicsObjectInfo() {}
-
-    public PhysicsObjectInfo setType(AType type) {
-        this.type = type;
-        return this;
-    }
-
-    public AType getType() {
-        return type;
-    }
 
     public PhysicsObjectInfo setObj(PhysicsObject obj) {
         this.obj = obj;

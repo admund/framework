@@ -12,12 +12,13 @@ import java.util.ArrayList;
  * Created by admund on 2015-03-07.
  */
 public class DesktopAchievementsProvider implements IAchievementsProvider {
+    private static final int GAME_ID = -1;
+    private static final String PRIVATE_KEY = "TODO";
+
     private GameJoltAPI api = null;
 
     public DesktopAchievementsProvider() {
-        api = new GameJoltAPI(GameJoltPrivate.GAME_ID, GameJoltPrivate.PRIVATE_KEY);
-        api.setVerbose(true);
-        api.verifyUser(GameJoltPrivate.USER, GameJoltPrivate.USER_TOKEN);
+        api = new GameJoltAPI(GAME_ID, PRIVATE_KEY);
     }
 
     @Override
@@ -36,11 +37,11 @@ public class DesktopAchievementsProvider implements IAchievementsProvider {
     public void showAchievements() {}
 
     @Override
-    public boolean submitScore(int score) {
+    public boolean submitScore(int score, String guestName) {
         if(api.isVerified()) {
             return api.addHighscore(score + " pts", score);
         } else {
-            return api.addHighscore("BabyDropGuest", score + " pts", score);
+            return api.addHighscore(guestName == null ? "Guest" : guestName, score + " pts", score);
         }
     }
 
