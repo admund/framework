@@ -3,11 +3,8 @@ package me.admund.framework.physics;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Align;
 import me.admund.framework.draw.DrawObject;
 import me.admund.framework.utils.UpdateType;
-
-import static com.badlogic.gdx.utils.Align.*;
 
 /**
  * Created by admund on 2014-12-23.
@@ -23,7 +20,6 @@ public abstract class PhysicsObject extends DrawObject implements IPhysicsObject
     private PhysicsObjectInfo info = null;
     private boolean canReuse = true;
     private PhysicsWorld world = null;
-
 
     public PhysicsObject(AType type) {
         info = new PhysicsObjectInfo().setType(type).setObj(this);
@@ -80,7 +76,7 @@ public abstract class PhysicsObject extends DrawObject implements IPhysicsObject
     public void prepereToReuse() {
         if(body != null) {
             body.setActive(false);
-            body.setTransform(-100f, -100f, 0f);
+            body.setTransform(-10000f, -10000f, 0f);
             body.setLinearVelocity(ZERO);
             body.setAngularVelocity(0);
         }
@@ -131,6 +127,7 @@ public abstract class PhysicsObject extends DrawObject implements IPhysicsObject
 
     protected void setCurrentPos(float x, float y, float rotation) {
         setPosition(x, y, aligment);
+        setRotation(rotation * MathUtils.radDeg);
         body.setTransform(x, y, rotation);
         updateSpriteHolder(UpdateType.POSSITION);
     }
@@ -167,9 +164,17 @@ public abstract class PhysicsObject extends DrawObject implements IPhysicsObject
         body.setTransform(pos.x, pos.y, degrees * MathUtils.degRad);
     }
 
-    public abstract void beginContact(Contact contact, boolean isObjectA);
+    public void beginContact(Contact contact, boolean isObjectA) {
+    }
 
-    public abstract void endContact(Contact contact, boolean isObjectA);
+    public void endContact(Contact contact, boolean isObjectA) {
+    }
+
+    public void preSolve(Contact contact, Manifold oldManifold, boolean isObjectA) {
+    }
+
+    public void postSolve(Contact contact, ContactImpulse impulse, boolean isObjectA) {
+    }
 
     protected PhysicsObject createObject(String className) {
         return world.getPhysicsObject(className);

@@ -15,6 +15,7 @@
        
        <script>
               function handleMouseDown(evt) {
+                window.focus();
                 evt.preventDefault();
                 evt.stopPropagation();
                 evt.target.style.cursor = 'default';
@@ -27,5 +28,19 @@
               }
               document.getElementById('embed-html').addEventListener('mousedown', handleMouseDown, false);
               document.getElementById('embed-html').addEventListener('mouseup', handleMouseUp, false);
+
+              window.addEventListener('keydown', function(e){
+                switch(e.keyCode){
+                        case 32:
+                        case 37:
+                        case 38:
+                        case 39:
+                        case 40:
+                        e.preventDefault();
+                        break;
+                        default:
+                        break;
+                    }
+                }, false);
        </script>
 </html>

@@ -1,5 +1,6 @@
 package me.admund.framework.draw.holders;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import me.admund.framework.draw.SpriteList;
 import me.admund.framework.draw.animations.AnimationState;
@@ -9,6 +10,7 @@ import me.admund.framework.draw.animations.AnimationState;
  */
 public interface ISpriteHolder {
     SpriteList getSpriteList();
+    void draw(Batch batch, float parentalAplha);
     void addSprite(Sprite sprite);
     void changeAnimationState(AnimationState state);
     void act(float delta);

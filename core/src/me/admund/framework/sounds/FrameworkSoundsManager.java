@@ -25,6 +25,13 @@ public abstract class FrameworkSoundsManager implements Disposable {
         mainTheme.play();
     }
 
+    public void playSound(String soundName) {
+        Sound sound = soundsMap.get(soundName);
+        if(sound != null) {
+            sound.play();
+        }
+    }
+
     protected void setMainTheme(String mainThemeName) {
         if(mainThemeName != null) {
             mainTheme = GameUtils.assetsManager.getMusic(mainThemeName);

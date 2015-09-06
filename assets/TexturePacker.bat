@@ -1,5 +1,6 @@
 cd TexturePacker
 
+java -cp gdx.jar;gdx-tools.jar com.badlogic.gdx.tools.texturepacker.TexturePacker ../loading ../ loading.atlas
 java -cp gdx.jar;gdx-tools.jar com.badlogic.gdx.tools.texturepacker.TexturePacker ../all ../ all.atlas
 
 cd ..

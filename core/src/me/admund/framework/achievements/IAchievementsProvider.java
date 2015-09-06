@@ -11,7 +11,7 @@ public interface IAchievementsProvider {
     void rateGame();
     void showLeaderboard();
     void showAchievements();
-    boolean submitScore(int score);
+    boolean submitScore(int score, String guestName);
     boolean earnAchievement(String achivmentId);
     boolean incrementAchievement(String achivmentId, int incrementValue);
     Array<AchievementState> getAchievementsStates();
