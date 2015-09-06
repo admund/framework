@@ -1,6 +1,5 @@
 package me.admund.framework;
 
-import me.admund.babydrop.BabyDropGame;
 import org.robovm.apple.foundation.NSAutoreleasePool;
 import org.robovm.apple.uikit.UIApplication;
 
@@ -11,7 +10,7 @@ public class IOSLauncher extends IOSApplication.Delegate {
     @Override
     protected IOSApplication createApplication() {
         IOSApplicationConfiguration config = new IOSApplicationConfiguration();
-        return new IOSApplication(new BabyDropGame(null), config); //TODO
+        return new IOSApplication(new FrameworkTest(null), config);
     }
 
     public static void main(String[] argv) {

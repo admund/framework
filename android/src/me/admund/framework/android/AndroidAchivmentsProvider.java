@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.GameHelper;
-import me.admund.babydrop.android.R;
 import me.admund.framework.achievements.AchievementState;
 import me.admund.framework.achievements.IAchievementsProvider;
 
@@ -85,7 +84,7 @@ public class AndroidAchivmentsProvider implements IAchievementsProvider,
     }
 
     @Override
-    public boolean submitScore(int score) {
+    public boolean submitScore(int score, String guestName) {
         if (isSignedIn()) {
             Games.Leaderboards.submitScore(gameHelper.getApiClient(), activity.getString(R.string.leaderboard_id), score);
             return true;

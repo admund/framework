@@ -1,26 +1,24 @@
 package me.admund.framework;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.utils.Align;
 import me.admund.framework.achievements.IAchievementsProvider;
 import me.admund.framework.assets.FrameworkAssetsManager;
-import me.admund.framework.draw.DrawUtils;
-import me.admund.framework.draw.SpriteList;
+import me.admund.framework.draw.holders.SimpleSpriteHolder;
 import me.admund.framework.draw.particle.FrameworkParticleManager;
 import me.admund.framework.game.AbstractGame;
-import me.admund.framework.physics.*;
+import me.admund.framework.physics.PhysicsObject;
+import me.admund.framework.physics.PhysicsWorld;
+import me.admund.framework.physics.ReuseFactory;
+import me.admund.framework.physics.objects.PhysicsRect;
 import me.admund.framework.scenes.AbstractScene;
 import me.admund.framework.scenes.IScene;
-import me.admund.framework.scenes.ScenesManager;
 import me.admund.framework.sounds.FrameworkSoundsManager;
 
 public class FrameworkTest extends AbstractGame {
+	private final static String MAIN_ATLAS_NAME = "all.atlas";
 
 	public FrameworkTest(IAchievementsProvider achievementsProvider) {
 		super(achievementsProvider);
@@ -30,9 +28,13 @@ public class FrameworkTest extends AbstractGame {
 	protected FrameworkAssetsManager createAssetManager() {
 		return new FrameworkAssetsManager() {
 			@Override
-			public void init() {}
+			public void init() {
+				mainAtlas = get(MAIN_ATLAS_NAME, TextureAtlas.class);
+			}
 			@Override
-			public void load() {}
+			public void load() {
+				load(MAIN_ATLAS_NAME, TextureAtlas.class);
+			}
 		};
 	}
 
@@ -53,16 +55,6 @@ public class FrameworkTest extends AbstractGame {
 	}
 
 	@Override
-	public void create () {
-		ScenesManager.inst().push(new TestScene(), true);
-	}
-
-	@Override
-	public void render() {
-		super.render();
-	}
-
-	@Override
 	protected IScene createFirstScene() {
 		return new TestScene();
 	}
@@ -73,11 +65,17 @@ public class FrameworkTest extends AbstractGame {
 		@Override
 		public void create() {
 			createGroups(new String[]{"MAIN"});
-			world = new PhysicsWorld(new FrameworkTestReuseFactory());
+			world = new PhysicsWorld(/*new Vector2(0, 9.8f), */new FrameworkTestReuseFactory());
 
-			PhysicsRect rect1 = (PhysicsRect)world.getPhysicsObject(PhysicsRect.class.toString());
-			rect1.init(35, 20);
+			MrPotato rect1 = (MrPotato)world.getPhysicsObject(MrPotato.class.toString());
+			rect1.init(35f, 20f);
 			addActor("MAIN", rect1);
+		}
+
+		@Override
+		public void act(float deltaTime) {
+			world.step(deltaTime);
+			super.act(deltaTime);
 		}
 
 		@Override
@@ -87,58 +85,32 @@ public class FrameworkTest extends AbstractGame {
 		}
 	}
 
+	// TEST REUSE FACTORY
 	class FrameworkTestReuseFactory extends ReuseFactory {
 		@Override
 		public PhysicsObject createNewObj(String className) {
 			PhysicsObject obj = null;
-			if(className.equals(PhysicsRect.class.toString())) {
-				obj = new PhysicsRect();
+			if(className.equals(MrPotato.class.toString())) {
+				obj = new MrPotato();
 			}
 			return obj;
 		}
 	}
 
-	class PhysicsRect extends PhysicsObject {
-		private SpriteList spriteList = new SpriteList();
-
-		public PhysicsRect() {
-			super(new NoneType(true));
-			spriteList.add(new Sprite(new Texture(Gdx.files.internal("badlogic.jpg"))));
+	// TEST OBJECT
+	class MrPotato extends PhysicsRect {
+		public void init(float x, float y) {
+			super.init(x, y, 0, 0);
+			setSpriteHolder(new SimpleSpriteHolder("mr_potato"), true);
+			setOrigin(Align.center);
+			getBody().setAngularVelocity(-3);
 		}
 
 		@Override
 		public BodyDef getBodyDef() {
-			BodyDef bodyDef = new BodyDef();
+			BodyDef bodyDef = super.getBodyDef();
 			bodyDef.type = BodyDef.BodyType.DynamicBody;
-			bodyDef.bullet = true;
 			return bodyDef;
 		}
-
-		@Override
-		public FixtureDef getFixtureDef() {
-			FixtureDef fixtureDef = new FixtureDef();
-			fixtureDef.shape = PhysicsUtils.getDefaultPolygonShape();
-			fixtureDef.isSensor = true;
-			return fixtureDef;
-		}
-
-		public void init(int x, int y) {
-			super.init();
-			setSize(5f * 2, 4f * 2);
-			setOrigin(Align.center);
-			setCurrentPos(x, y);
-			PhysicsUtils.updateRectShape(getShape(), 5f, 4f);
-		}
-
-		@Override
-		public void draw(Batch batch, float parentAlpha) {
-			DrawUtils.draw(batch, spriteList);
-		}
-
-		@Override
-		public void beginContact(Contact contact, boolean isObjectA) {}
-
-		@Override
-		public void endContact(Contact contact, boolean isObjectA) {}
 	}
 }

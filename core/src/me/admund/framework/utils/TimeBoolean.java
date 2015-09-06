@@ -35,8 +35,16 @@ public class TimeBoolean {
         }
     }
 
+    public float getPercent() {
+        return delayTime/maxDelayTime;
+    }
+
     public void forceChange() {
         delayTime = maxDelayTime;
+    }
+
+    public void reset() {
+        delayTime = 0;
     }
 
     public boolean getValue() {
