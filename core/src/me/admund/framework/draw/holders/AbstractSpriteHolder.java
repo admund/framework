@@ -1,6 +1,8 @@
 package me.admund.framework.draw.holders;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import me.admund.framework.draw.DrawUtils;
 import me.admund.framework.draw.SpriteList;
 
 /**
@@ -21,6 +23,11 @@ public abstract class AbstractSpriteHolder implements ISpriteHolder {
     @Override
     public SpriteList getSpriteList() {
         return spriteList;
+    }
+
+    @Override
+    public void draw(Batch batch, float parentalAplha) {
+        DrawUtils.draw(batch, getSpriteList());
     }
 
     @Override

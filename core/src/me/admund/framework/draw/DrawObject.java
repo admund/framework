@@ -2,6 +2,7 @@ package me.admund.framework.draw;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import me.admund.framework.draw.animations.AnimationState;
 import me.admund.framework.draw.holders.ISpriteHolder;
 import me.admund.framework.physics.PhysicsWorld;
 import me.admund.framework.utils.UpdateType;
@@ -23,10 +24,6 @@ public abstract class DrawObject extends Actor {
                     spriteHolder.getSpriteHeight() * PhysicsWorld.SCREEN_TO_BOX);
         }
         updateSpriteHolder(UpdateType.ALL);
-    }
-
-    protected SpriteList getSpriteList() {
-        return spriteHolder.getSpriteList();
     }
 
     @Override
@@ -67,17 +64,27 @@ public abstract class DrawObject extends Actor {
         updateSpriteHolder(UpdateType.ALL);
     }
 
+    @Override
+    public void moveBy(float x, float y) {
+        super.moveBy(x, y);
+        updateSpriteHolder(UpdateType.POSSITION);
+    }
+
+    public void changeAnimationState(AnimationState state) {
+        spriteHolder.changeAnimationState(state);
+    }
+
     protected void updateSpriteHolder(UpdateType updateType) {
         if(spriteHolder != null) {
+            if(updateType == UpdateType.ALL) {
+                spriteHolder.updateScale(getScaleX(), getScaleY());
+            }
             if(updateType == UpdateType.ALL || updateType == UpdateType.POSSITION) {
                 spriteHolder.updatePosition(getX() * PhysicsWorld.BOX_TO_SCREEN, getY() * PhysicsWorld.BOX_TO_SCREEN,
                         getRotation());
             }
             if(updateType == UpdateType.ALL || updateType == UpdateType.SIZE) {
                 spriteHolder.updateSize(getWidth() * PhysicsWorld.BOX_TO_SCREEN, getHeight() * PhysicsWorld.BOX_TO_SCREEN);
-            }
-            if(updateType == UpdateType.ALL) {
-                spriteHolder.updateScale(getScaleX(), getScaleY());
             }
             if(updateType == UpdateType.ALL) {
                 spriteHolder.updateOrigin(getOriginX() * PhysicsWorld.BOX_TO_SCREEN, getOriginY() * PhysicsWorld.BOX_TO_SCREEN);
@@ -88,7 +95,7 @@ public abstract class DrawObject extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         if(isVisible() && isSpriteHolder()) {
-            DrawUtils.draw(batch, getSpriteList());
+            spriteHolder.draw(batch, parentAlpha);
         }
     }
 
@@ -107,5 +114,4 @@ public abstract class DrawObject extends Actor {
     public float getScreenPosY() {
         return getY() * PhysicsWorld.BOX_TO_SCREEN;
     }
-
 }

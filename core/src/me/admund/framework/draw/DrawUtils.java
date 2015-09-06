@@ -28,8 +28,11 @@ public class DrawUtils {
         return GameUtils.assetsManager.getTextureRegionFromMain(stringTab[MathUtils.random(stringTab.length - 1)]);
     }
 
-    private static boolean isVisible(Sprite sprite) {
-        return GameUtils.currentCamera.frustum.boundsInFrustum(sprite.getX(), sprite.getY(), 0,
-                sprite.getWidth(), sprite.getHeight(), 0);
+    public static boolean isVisible(Sprite sprite) {
+        if(GameUtils.currentCamera != null) {
+            return GameUtils.currentCamera.frustum.boundsInFrustum(sprite.getX(), sprite.getY(), 0,
+                    sprite.getWidth(), sprite.getHeight(), 0);
+        }
+        return true;
     }
 }

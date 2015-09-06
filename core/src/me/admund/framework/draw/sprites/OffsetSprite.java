@@ -11,6 +11,10 @@ public class OffsetSprite extends Sprite {
     private float offsetX = 0;
     private float offsetY = 0;
 
+    public OffsetSprite(float offsetX, float offsetY) {
+        setOffset(offsetX, offsetY);
+    }
+
     public OffsetSprite(TextureRegion texture, float offsetX, float offsetY) {
         super(texture);
         setOffset(offsetX, offsetY);
